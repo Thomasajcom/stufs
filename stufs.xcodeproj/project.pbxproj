@@ -19,6 +19,7 @@
 		E91DAD7F25357D9E00D866A6 /* St_Group+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91DAD7B25357D9E00D866A6 /* St_Group+CoreDataProperties.swift */; };
 		E91DAD8025357D9E00D866A6 /* St_Item+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91DAD7C25357D9E00D866A6 /* St_Item+CoreDataClass.swift */; };
 		E91DAD8125357D9E00D866A6 /* St_Item+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91DAD7D25357D9E00D866A6 /* St_Item+CoreDataProperties.swift */; };
+		E9A8F94B253D851D00EDDB1D /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A8F94A253D851D00EDDB1D /* UIColor+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		E91DAD7B25357D9E00D866A6 /* St_Group+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "St_Group+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E91DAD7C25357D9E00D866A6 /* St_Item+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "St_Item+CoreDataClass.swift"; sourceTree = "<group>"; };
 		E91DAD7D25357D9E00D866A6 /* St_Item+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "St_Item+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		E9A8F94A253D851D00EDDB1D /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 		E91DAD3D2535715000D866A6 /* stufs */ = {
 			isa = PBXGroup;
 			children = (
+				E9A8F949253D84E700EDDB1D /* Extensions */,
 				E91DAD8525357DC700D866A6 /* Core Data */,
 				E91DAD3E2535715000D866A6 /* AppDelegate.swift */,
 				E91DAD402535715000D866A6 /* SceneDelegate.swift */,
@@ -146,6 +149,14 @@
 				E91DAD7D25357D9E00D866A6 /* St_Item+CoreDataProperties.swift */,
 			);
 			path = "Core Data";
+			sourceTree = "<group>";
+		};
+		E9A8F949253D84E700EDDB1D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E9A8F94A253D851D00EDDB1D /* UIColor+Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -280,6 +291,7 @@
 				E91DAD7F25357D9E00D866A6 /* St_Group+CoreDataProperties.swift in Sources */,
 				E91DAD7E25357D9E00D866A6 /* St_Group+CoreDataClass.swift in Sources */,
 				E91DAD432535715000D866A6 /* ViewController.swift in Sources */,
+				E9A8F94B253D851D00EDDB1D /* UIColor+Extension.swift in Sources */,
 				E91DAD3F2535715000D866A6 /* AppDelegate.swift in Sources */,
 				E91DAD412535715000D866A6 /* SceneDelegate.swift in Sources */,
 				E91DAD492535715000D866A6 /* stufs.xcdatamodeld in Sources */,
