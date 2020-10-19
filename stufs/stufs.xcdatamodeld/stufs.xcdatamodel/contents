@@ -1,4 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="true" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19H2" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="St_Group" representedClassName="St_Group" syncable="YES">
+        <attribute name="color" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="St_Item" inverseName="group" inverseEntity="St_Item"/>
+    </entity>
+    <entity name="St_Item" representedClassName="St_Item" syncable="YES">
+        <attribute name="acquiredDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="acquiredFrom" optional="YES" attributeType="String"/>
+        <attribute name="discardedDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="favorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="itemPhoto" optional="YES" attributeType="Binary"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="notes" optional="YES" attributeType="String"/>
+        <attribute name="receiptPhoto" optional="YES" attributeType="Binary"/>
+        <attribute name="status" optional="YES" attributeType="String"/>
+        <attribute name="warrantyLength" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="group" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="St_Group" inverseName="items" inverseEntity="St_Group"/>
+    </entity>
+    <elements>
+        <element name="St_Item" positionX="-506.2578125" positionY="290.65234375" width="128" height="208"/>
+        <element name="St_Group" positionX="-292.07421875" positionY="341.66796875" width="128" height="88"/>
+    </elements>
 </model>
