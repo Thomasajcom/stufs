@@ -18,8 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        let persistentContainer = ((UIApplication.shared.delegate as? AppDelegate)?.persistentContainer)!
-        let navController = UINavigationController(rootViewController: ViewController(container: persistentContainer))
+        let coreDataStore = CoreDataStore()
+        let navController = UINavigationController(rootViewController: ViewController(container: coreDataStore.persistentContainer))
         window?.rootViewController = navController
         window?.makeKeyAndVisible()
     }
