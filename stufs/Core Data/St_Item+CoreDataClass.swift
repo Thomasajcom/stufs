@@ -17,5 +17,4 @@ public class St_Item: NSManagedObject {
     func toggleFavoriteStatus() {
         self.favorite.toggle()
     }
-
 }

@@ -10,6 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    var coreDataStore: St_CoreDataStore! = nil
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -18,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        let coreDataStore = CoreDataStore()
+        coreDataStore = St_CoreDataStore()
         let navController = UINavigationController(rootViewController: ViewController(container: coreDataStore.persistentContainer))
         window?.rootViewController = navController
         window?.makeKeyAndVisible()
@@ -52,7 +53,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
 
         // Save changes in the application's managed object context when the application transitions to the background.
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+//        (UIApplication.shared.delegate as? AppDelegate)  ?.saveContext()
+        coreDataStore.saveContext()
     }
 
 

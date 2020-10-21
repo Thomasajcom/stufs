@@ -21,7 +21,9 @@
 		E91DAD8125357D9E00D866A6 /* St_Item+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91DAD7D25357D9E00D866A6 /* St_Item+CoreDataProperties.swift */; };
 		E9A8F94B253D851D00EDDB1D /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A8F94A253D851D00EDDB1D /* UIColor+Extension.swift */; };
 		E9A8F954253DFB1E00EDDB1D /* St_ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A8F953253DFB1D00EDDB1D /* St_ItemCell.swift */; };
-		E9A8F9592540274200EDDB1D /* CoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A8F9582540274000EDDB1D /* CoreDataStore.swift */; };
+		E9A8F9592540274200EDDB1D /* St_CoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A8F9582540274000EDDB1D /* St_CoreDataStore.swift */; };
+		E9A8F95E25402B4F00EDDB1D /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A8F95D25402B4F00EDDB1D /* CoreDataTests.swift */; };
+		E9A8F96B254077C600EDDB1D /* stufs.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E91DAD472535715000D866A6 /* stufs.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,7 +64,8 @@
 		E91DAD7D25357D9E00D866A6 /* St_Item+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "St_Item+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E9A8F94A253D851D00EDDB1D /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		E9A8F953253DFB1D00EDDB1D /* St_ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_ItemCell.swift; sourceTree = "<group>"; };
-		E9A8F9582540274000EDDB1D /* CoreDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStore.swift; sourceTree = "<group>"; };
+		E9A8F9582540274000EDDB1D /* St_CoreDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_CoreDataStore.swift; sourceTree = "<group>"; };
+		E9A8F95D25402B4F00EDDB1D /* CoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +135,7 @@
 			children = (
 				E91DAD582535715400D866A6 /* stufsTests.swift */,
 				E91DAD5A2535715400D866A6 /* Info.plist */,
+				E9A8F95D25402B4F00EDDB1D /* CoreDataTests.swift */,
 			);
 			path = stufsTests;
 			sourceTree = "<group>";
@@ -152,7 +156,7 @@
 				E91DAD7B25357D9E00D866A6 /* St_Group+CoreDataProperties.swift */,
 				E91DAD7C25357D9E00D866A6 /* St_Item+CoreDataClass.swift */,
 				E91DAD7D25357D9E00D866A6 /* St_Item+CoreDataProperties.swift */,
-				E9A8F9582540274000EDDB1D /* CoreDataStore.swift */,
+				E9A8F9582540274000EDDB1D /* St_CoreDataStore.swift */,
 			);
 			path = "Core Data";
 			sourceTree = "<group>";
@@ -305,7 +309,7 @@
 				E91DAD7F25357D9E00D866A6 /* St_Group+CoreDataProperties.swift in Sources */,
 				E91DAD7E25357D9E00D866A6 /* St_Group+CoreDataClass.swift in Sources */,
 				E91DAD432535715000D866A6 /* ViewController.swift in Sources */,
-				E9A8F9592540274200EDDB1D /* CoreDataStore.swift in Sources */,
+				E9A8F9592540274200EDDB1D /* St_CoreDataStore.swift in Sources */,
 				E9A8F94B253D851D00EDDB1D /* UIColor+Extension.swift in Sources */,
 				E91DAD3F2535715000D866A6 /* AppDelegate.swift in Sources */,
 				E91DAD412535715000D866A6 /* SceneDelegate.swift in Sources */,
@@ -320,6 +324,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9A8F96B254077C600EDDB1D /* stufs.xcdatamodeld in Sources */,
+				E9A8F95E25402B4F00EDDB1D /* CoreDataTests.swift in Sources */,
 				E91DAD592535715400D866A6 /* stufsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
