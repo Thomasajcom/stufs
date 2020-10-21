@@ -164,22 +164,7 @@ class ViewController: UIViewController {
     
     // MARK: - Actions
     @objc private func tabChanged(sender: UISegmentedControl) {
-        print("creating a new item!")
-        let item = St_Item(context: container.viewContext)
-        item.name = "Test name"
-        item.acquiredDate = Date()
-        item.acquiredFrom = "Test acq from"
-        item.discardedDate = nil
-        item.favorite = false
-        item.warrantyLength = 365
-        item.status = St_ItemStatus.owned.name
-        item.group = nil
-        do {
-            try container.viewContext.save()
-        } catch  {
-            print("something went wrong when saving")
-        }
-        
+
     }
     
     @objc private func goToSettings() {
@@ -207,49 +192,7 @@ class ViewController: UIViewController {
     
 }
 
-enum St_ItemStatus: CaseIterable {
-    
-    case favorite
-    case wishlist
-    case owned
-    case discarded
-    
-    var name: String {
-        switch self {
-        case .favorite:
-            return "Favorite"
-        case .wishlist:
-            return "Wish List"
-        case .owned:
-            return "Owned"
-        case .discarded:
-            return "Discarded"
-        }
-    }
-    
-    var image: UIImage? {
-        switch self {
-        case .favorite:
-            return UIImage(systemName: "star")!
-        case .discarded:
-            return UIImage(systemName: "trash")!
-        default:
-            return nil
-        }
-    }
-    
-    var selectedImage: UIImage? {
-        switch self {
-        case .favorite:
-            return UIImage(systemName: "star.fill")!
-        case .discarded:
-            return UIImage(systemName: "trash.fill")!
-        default:
-            return nil
-        }
-    }
-    
-}
+
 
 extension ViewController: NSFetchedResultsControllerDelegate {
     

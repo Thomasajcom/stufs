@@ -24,6 +24,7 @@
 		E9A8F9592540274200EDDB1D /* St_CoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A8F9582540274000EDDB1D /* St_CoreDataStore.swift */; };
 		E9A8F95E25402B4F00EDDB1D /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A8F95D25402B4F00EDDB1D /* CoreDataTests.swift */; };
 		E9A8F96B254077C600EDDB1D /* stufs.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E91DAD472535715000D866A6 /* stufs.xcdatamodeld */; };
+		E9A8F9742540B48B00EDDB1D /* St_ItemStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A8F9732540B48A00EDDB1D /* St_ItemStatus.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		E9A8F953253DFB1D00EDDB1D /* St_ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_ItemCell.swift; sourceTree = "<group>"; };
 		E9A8F9582540274000EDDB1D /* St_CoreDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_CoreDataStore.swift; sourceTree = "<group>"; };
 		E9A8F95D25402B4F00EDDB1D /* CoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
+		E9A8F9732540B48A00EDDB1D /* St_ItemStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_ItemStatus.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 		E91DAD3D2535715000D866A6 /* stufs */ = {
 			isa = PBXGroup;
 			children = (
+				E9A8F9722540B46A00EDDB1D /* Models */,
 				E9A8F952253DFABC00EDDB1D /* Cells */,
 				E9A8F949253D84E700EDDB1D /* Extensions */,
 				E91DAD8525357DC700D866A6 /* Core Data */,
@@ -175,6 +178,14 @@
 				E9A8F953253DFB1D00EDDB1D /* St_ItemCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		E9A8F9722540B46A00EDDB1D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E9A8F9732540B48A00EDDB1D /* St_ItemStatus.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -313,6 +324,7 @@
 				E9A8F94B253D851D00EDDB1D /* UIColor+Extension.swift in Sources */,
 				E91DAD3F2535715000D866A6 /* AppDelegate.swift in Sources */,
 				E91DAD412535715000D866A6 /* SceneDelegate.swift in Sources */,
+				E9A8F9742540B48B00EDDB1D /* St_ItemStatus.swift in Sources */,
 				E91DAD492535715000D866A6 /* stufs.xcdatamodeld in Sources */,
 				E9A8F954253DFB1E00EDDB1D /* St_ItemCell.swift in Sources */,
 				E91DAD8125357D9E00D866A6 /* St_Item+CoreDataProperties.swift in Sources */,
