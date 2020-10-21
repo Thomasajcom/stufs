@@ -11,5 +11,11 @@ import CoreData
 
 @objc(St_Item)
 public class St_Item: NSManagedObject {
+    
+    
+    /// Toggles the favorite property of an item
+    func toggleFavoriteStatus() {
+        self.favorite.toggle()
+    }
 
 }
