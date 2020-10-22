@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// The Cell that displays the Item in the primary List View (collectionview) of the app
 class St_ItemCell: UICollectionViewCell {
     static let reuseIdentifier: String = "St_ItemCell"
     

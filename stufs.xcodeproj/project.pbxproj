@@ -19,6 +19,9 @@
 		E91DAD7F25357D9E00D866A6 /* St_Group+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91DAD7B25357D9E00D866A6 /* St_Group+CoreDataProperties.swift */; };
 		E91DAD8025357D9E00D866A6 /* St_Item+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91DAD7C25357D9E00D866A6 /* St_Item+CoreDataClass.swift */; };
 		E91DAD8125357D9E00D866A6 /* St_Item+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91DAD7D25357D9E00D866A6 /* St_Item+CoreDataProperties.swift */; };
+		E921FB8725415E7A00A84BE8 /* AddItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E921FB8625415E7900A84BE8 /* AddItemVC.swift */; };
+		E921FB8C2541750900A84BE8 /* St_AddItemTextInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E921FB8B2541750900A84BE8 /* St_AddItemTextInputCell.swift */; };
+		E921FB9525419FBF00A84BE8 /* St_AddItemImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E921FB9425419FBF00A84BE8 /* St_AddItemImageCell.swift */; };
 		E9A8F94B253D851D00EDDB1D /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A8F94A253D851D00EDDB1D /* UIColor+Extension.swift */; };
 		E9A8F954253DFB1E00EDDB1D /* St_ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A8F953253DFB1D00EDDB1D /* St_ItemCell.swift */; };
 		E9A8F9592540274200EDDB1D /* St_CoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A8F9582540274000EDDB1D /* St_CoreDataStore.swift */; };
@@ -63,6 +66,9 @@
 		E91DAD7B25357D9E00D866A6 /* St_Group+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "St_Group+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E91DAD7C25357D9E00D866A6 /* St_Item+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "St_Item+CoreDataClass.swift"; sourceTree = "<group>"; };
 		E91DAD7D25357D9E00D866A6 /* St_Item+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "St_Item+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		E921FB8625415E7900A84BE8 /* AddItemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemVC.swift; sourceTree = "<group>"; };
+		E921FB8B2541750900A84BE8 /* St_AddItemTextInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_AddItemTextInputCell.swift; sourceTree = "<group>"; };
+		E921FB9425419FBF00A84BE8 /* St_AddItemImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_AddItemImageCell.swift; sourceTree = "<group>"; };
 		E9A8F94A253D851D00EDDB1D /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		E9A8F953253DFB1D00EDDB1D /* St_ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_ItemCell.swift; sourceTree = "<group>"; };
 		E9A8F9582540274000EDDB1D /* St_CoreDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_CoreDataStore.swift; sourceTree = "<group>"; };
@@ -118,6 +124,7 @@
 		E91DAD3D2535715000D866A6 /* stufs */ = {
 			isa = PBXGroup;
 			children = (
+				E921FB8525415E4400A84BE8 /* Add Item */,
 				E9A8F9722540B46A00EDDB1D /* Models */,
 				E9A8F952253DFABC00EDDB1D /* Cells */,
 				E9A8F949253D84E700EDDB1D /* Extensions */,
@@ -162,6 +169,24 @@
 				E9A8F9582540274000EDDB1D /* St_CoreDataStore.swift */,
 			);
 			path = "Core Data";
+			sourceTree = "<group>";
+		};
+		E921FB8525415E4400A84BE8 /* Add Item */ = {
+			isa = PBXGroup;
+			children = (
+				E921FB9325419F9200A84BE8 /* Cells */,
+				E921FB8625415E7900A84BE8 /* AddItemVC.swift */,
+			);
+			path = "Add Item";
+			sourceTree = "<group>";
+		};
+		E921FB9325419F9200A84BE8 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				E921FB8B2541750900A84BE8 /* St_AddItemTextInputCell.swift */,
+				E921FB9425419FBF00A84BE8 /* St_AddItemImageCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		E9A8F949253D84E700EDDB1D /* Extensions */ = {
@@ -317,13 +342,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E921FB9525419FBF00A84BE8 /* St_AddItemImageCell.swift in Sources */,
 				E91DAD7F25357D9E00D866A6 /* St_Group+CoreDataProperties.swift in Sources */,
 				E91DAD7E25357D9E00D866A6 /* St_Group+CoreDataClass.swift in Sources */,
 				E91DAD432535715000D866A6 /* ViewController.swift in Sources */,
+				E921FB8725415E7A00A84BE8 /* AddItemVC.swift in Sources */,
 				E9A8F9592540274200EDDB1D /* St_CoreDataStore.swift in Sources */,
 				E9A8F94B253D851D00EDDB1D /* UIColor+Extension.swift in Sources */,
 				E91DAD3F2535715000D866A6 /* AppDelegate.swift in Sources */,
 				E91DAD412535715000D866A6 /* SceneDelegate.swift in Sources */,
+				E921FB8C2541750900A84BE8 /* St_AddItemTextInputCell.swift in Sources */,
 				E9A8F9742540B48B00EDDB1D /* St_ItemStatus.swift in Sources */,
 				E91DAD492535715000D866A6 /* stufs.xcdatamodeld in Sources */,
 				E9A8F954253DFB1E00EDDB1D /* St_ItemCell.swift in Sources */,

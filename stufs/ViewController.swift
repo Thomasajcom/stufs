@@ -17,7 +17,8 @@ class ViewController: UIViewController {
     private var tabs: UISegmentedControl! = nil
     private var collectionView: UICollectionView! = nil
     
-    private var fakeSource: [St_Item]! = nil
+    private var addItemButton: UIButton! = nil
+    
     
     init(container: NSPersistentCloudKitContainer) {
         self.container = container
@@ -52,11 +53,11 @@ class ViewController: UIViewController {
     }
     
     private func configureView() {
-        view.backgroundColor = .purple
+        view.backgroundColor = .systemPurple
     }
     
     private func configureTabs() {
-        tabs = UISegmentedControl(items: St_ItemStatus.allCases.map({ $0.image ?? "\($0)" as Any  }) )
+        tabs = UISegmentedControl(items: St_ItemStatus.allCases.map({ $0.image ?? $0.name as Any  }) )
         tabs.addTarget(self, action: #selector(tabChanged), for: .valueChanged)
         //appearance
         tabs.backgroundColor = .nonselectedTabColor
@@ -138,7 +139,11 @@ class ViewController: UIViewController {
     }
     
     private func configureAddItemButton() {
+        addItemButton = UIButton(type: .custom)
+        addItemButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        addItemButton.addTarget(self, action: #selector(goToAddItem(sender:)), for: .touchUpInside)
         
+        view.addSubview(addItemButton)
     }
     
     private func configureGroupTray() {
@@ -149,6 +154,7 @@ class ViewController: UIViewController {
     private func configureConstraints() {
         tabs.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        addItemButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tabs.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 1),
             tabs.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
@@ -157,14 +163,21 @@ class ViewController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: tabs.bottomAnchor, constant: -5),
             collectionView.leadingAnchor.constraint(equalTo: tabs.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: tabs.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            addItemButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            addItemButton.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor,constant: -10)
         ])
-        
     }
     
     // MARK: - Actions
     @objc private func tabChanged(sender: UISegmentedControl) {
 
+    }
+    
+    @objc private func goToAddItem(sender: UIButton) {
+        let addItemVC = AddItemVC(container: self.container)
+        let nav = UINavigationController(rootViewController: addItemVC)
+        self.present(nav, animated: true, completion: nil)
     }
     
     @objc private func goToSettings() {
