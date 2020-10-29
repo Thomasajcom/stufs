@@ -19,6 +19,10 @@ class CoreDataTests: XCTestCase {
         item = St_Item(context: coreDataStore.persistentContainer.viewContext)
         item.name = "iPhone 12"
         item.favorite = true
+        let newGroup = St_Group(context: coreDataStore.persistentContainer.viewContext)
+        newGroup.name = "New Group"
+        newGroup.color = UIColor.systemGreen
+
         coreDataStore.saveContext()
     }
     
@@ -27,9 +31,26 @@ class CoreDataTests: XCTestCase {
         XCTAssertTrue(coreDataStore.fetchAllItems().count == 1)
     }
     
+    func testFetchAllGroups() {
+        XCTAssertTrue(coreDataStore.fetchAllGroups().count == 0)
+    }
+    
+    func testAddSt_Group() {
+        let newGroup = St_Group(context: coreDataStore.persistentContainer.viewContext)
+        newGroup.name = "New Group"
+        newGroup.color = UIColor.systemGreen
+        XCTAssertNotNil(newGroup, "Should not be nil after being created.")
+        XCTAssertTrue(newGroup.name == "New Group")
+        XCTAssertNotNil(newGroup.color)
+        coreDataStore.saveContext()
+        
+        XCTAssertTrue(coreDataStore.fetchAllGroups().count > 0)
+    }
+    
     func testAddSt_Item() {
         let newItem = St_Item(context: coreDataStore!.persistentContainer.viewContext)
         newItem.name = "iPhone 12 Pro"
+        newItem.group = coreDataStore.fetchAllGroups().first
         newItem.favorite = false
         newItem.acquiredFrom = "Elkjøp"
         let today = Date()
@@ -40,6 +61,7 @@ class CoreDataTests: XCTestCase {
         newItem.status = St_ItemStatus.owned.name
         
         XCTAssertNotNil(newItem, "Should not be nil after being created.")
+        XCTAssertNotNil(newItem.group)
         XCTAssertTrue(newItem.name == "iPhone 12 Pro")
         XCTAssertFalse(newItem.favorite)
         XCTAssertTrue(newItem.acquiredFrom == "Elkjøp")
@@ -62,7 +84,7 @@ class CoreDataTests: XCTestCase {
         XCTAssertFalse(item.favorite)
     }
     
-    func testDeleteItem() {
+    func testDeleteAllItems() {
         coreDataStore.deleteAll(ofEntity: "St_Item")
         XCTAssertTrue(coreDataStore.fetchAllItems().count == 0)
     }

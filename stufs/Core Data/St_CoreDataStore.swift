@@ -63,7 +63,7 @@ class St_CoreDataStore {
     
     /// feches all instances of St_Item stored in the Container
     /// - Returns: An array of all existing St_Items
-    func fetchAllItems() -> [St_Item]{
+    func fetchAllItems() -> [St_Item] {
         let fetchRequest: NSFetchRequest<St_Item> = St_Item.fetchRequest()
         var result: [St_Item] = [St_Item]()
         do {
@@ -73,6 +73,19 @@ class St_CoreDataStore {
         }
         return result
         
+    }
+    
+    /// Fetches all instances of St_Group stored in the container
+    /// - Returns: An array of all existing St_Group instances
+    func fetchAllGroups() -> [St_Group] {
+        let fetchRequest: NSFetchRequest<St_Group> = St_Group.fetchRequest()
+        var result: [St_Group] = [St_Group]()
+        do {
+            result  = try persistentContainer.viewContext.fetch(fetchRequest)
+        } catch let error as NSError {
+            print("error fetching people: \(error)")
+        }
+        return result
     }
     
     /// Deletes all instances of the provided entity stored in the container

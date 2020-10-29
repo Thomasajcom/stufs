@@ -11,6 +11,7 @@ import CoreData
 class AddItemVC: UIViewController {
     
     private var coreDataStore: St_CoreDataStore! = nil
+    private var newItem: St_Item! = nil
     
     private var tabs: UISegmentedControl! = nil
     private var tableView: UITableView! = nil
@@ -23,6 +24,7 @@ class AddItemVC: UIViewController {
     init(coreDataStore: St_CoreDataStore) {
         super.init(nibName: nil, bundle: nil)
         self.coreDataStore = coreDataStore
+        self.newItem = St_Item(context: self.coreDataStore.persistentContainer.viewContext)
     }
     
     required init?(coder: NSCoder) {
@@ -144,13 +146,21 @@ extension AddItemVC: UITableViewDelegate, UITableViewDataSource {
         // Info Section
         case 0:
             if indexPath.row == 0 {
+                // Item NAME
                 let cell = tableView.dequeueReusableCell(withIdentifier: St_AddItemTextInputCell.reuseIdentifier) as! St_AddItemTextInputCell
                 cell.setUpCell(with: itemInfoCells[indexPath.row])
                 return cell
             } else if indexPath.row == 1 {
+                // Item GROUP
                 let cell = tableView.dequeueReusableCell(withIdentifier: St_AddItemGroupSelectorCell.reuseIdentifier) as! St_AddItemGroupSelectorCell
                 cell.groupDelegate = self
                 return cell
+            } else if indexPath.row == 2 {
+                // Item WARRANTY LENGTH
+
+            } else if indexPath.row == 3 {
+                // Item NOTES
+
             }
             
         // Photo Section
@@ -160,10 +170,12 @@ extension AddItemVC: UITableViewDelegate, UITableViewDataSource {
         // Acquired Section
         case 2:
             if indexPath.row == 0 {
+                // Item ACQUIRED WHERE
                 let cell = tableView.dequeueReusableCell(withIdentifier: St_AddItemTextInputCell.reuseIdentifier) as! St_AddItemTextInputCell
                 cell.setUpCell(with: acquiredInfoCell)
                 return cell
             }else {
+                // Item ACQUIRED WHEN
                 let cell = UITableViewCell()
                 return cell
             }
@@ -233,14 +245,14 @@ extension AddItemVC: St_AddItemGroupSelectorCellDelegate {
     }
 }
 
+
+// MARK: - GroupSelectorVCDelegate
 extension AddItemVC: GroupSelectorVCDelegate {
     func updateSelectedGroup(with group: St_Group) {
-        print("the selected group is:::::: \(group.name)")
+        self.newItem.group = group
         let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? St_AddItemGroupSelectorCell
         cell?.set(group: group)
     }
-    
-    
 }
 
 
