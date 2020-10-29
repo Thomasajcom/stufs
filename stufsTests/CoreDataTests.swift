@@ -35,7 +35,7 @@ class CoreDataTests: XCTestCase {
         let today = Date()
         newItem.acquiredDate = today
         newItem.discardedDate = nil
-        let notes = "These are the notes for my iPhone 12 Pro I purchased from Elkjøp. It's not a favorite."
+        let notes = "This is not a favorite. I did not buy AppleCare+ for this product."
         newItem.notes = notes
         newItem.status = St_ItemStatus.owned.name
         

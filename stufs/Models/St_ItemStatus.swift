@@ -56,9 +56,9 @@ enum St_ItemStatus: CaseIterable {
         case .favorite:
             return " Favorite items are items you own, but like a bit more than other items. 🤩"
         case .wishlist:
-            return " Your Wish List contains items you one day would like to own. 😏"
+            return " Your Wish List contains of items you one day would like to own. 😏"
         case .owned:
-            return " Every item added needs to be put in a state. \n Owned items are items you own. 😊"
+            return " Every item needs to be put in a state. \n Owned items are items you own. 😊"
         case .discarded:
             return " Discarded items are items that you for some reason no longer own. 🥺"
         }
