@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 
 extension St_Group {
@@ -17,7 +18,7 @@ extension St_Group {
     }
 
     @NSManaged public var name: String
-    @NSManaged public var color: String
+    @NSManaged public var color: UIColor
     @NSManaged public var items: NSSet?
 
 }

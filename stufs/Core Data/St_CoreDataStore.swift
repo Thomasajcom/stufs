@@ -19,6 +19,7 @@ class St_CoreDataStore {
     let persistentContainer: NSPersistentCloudKitContainer
     
     init(_ storageType: StorageType = .persistent) {
+        ColorValueTransformer.register()
         self.persistentContainer = NSPersistentCloudKitContainer(name: "stufs")
         
         //with testing we set up an inMemory store that writes to /dev/null, while undocumented this is Apple's recommended approach

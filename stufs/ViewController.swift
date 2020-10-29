@@ -10,7 +10,7 @@ import CoreData
 
 class ViewController: UIViewController {
     
-    private var container: NSPersistentCloudKitContainer! = nil
+    private var coreDataStore: St_CoreDataStore! = nil
     private var diffableDataSource: UICollectionViewDiffableDataSource<Int, NSManagedObjectID>! = nil
     private var fetchedResultsController: NSFetchedResultsController<St_Item>! = nil
     
@@ -20,8 +20,8 @@ class ViewController: UIViewController {
     private var addItemButton: UIButton! = nil
     
     
-    init(container: NSPersistentCloudKitContainer) {
-        self.container = container
+    init(coreDataStore: St_CoreDataStore) {
+        self.coreDataStore = coreDataStore
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -108,7 +108,7 @@ class ViewController: UIViewController {
     private func configureDataSource() {
         let diffableDataSource = UICollectionViewDiffableDataSource<Int, NSManagedObjectID> (collectionView: self.collectionView) { (collectionView, indexPath, objectID) -> UICollectionViewCell? in
             //the object, an St_Item, to display in the collectionview
-            guard let object = try? self.container.viewContext.existingObject(with: objectID) else {
+            guard let object = try? self.coreDataStore.persistentContainer.viewContext.existingObject(with: objectID) else {
                 fatalError("Managed object should be available")
             }
             
@@ -127,7 +127,7 @@ class ViewController: UIViewController {
         let sortDescriptor = NSSortDescriptor(key: "warrantyLength", ascending: true)
         let request: NSFetchRequest<St_Item> = St_Item.fetchRequest()
         request.sortDescriptors = [sortDescriptor]
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: container.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: coreDataStore.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
         
         do {
@@ -175,7 +175,7 @@ class ViewController: UIViewController {
     }
     
     @objc private func goToAddItem(sender: UIButton) {
-        let addItemVC = AddItemVC(container: self.container)
+        let addItemVC = AddItemVC(coreDataStore: self.coreDataStore)
         let nav = UINavigationController(rootViewController: addItemVC)
         self.present(nav, animated: true, completion: nil)
     }

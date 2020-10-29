@@ -23,6 +23,10 @@
 		E921FB8C2541750900A84BE8 /* St_AddItemTextInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E921FB8B2541750900A84BE8 /* St_AddItemTextInputCell.swift */; };
 		E921FB9525419FBF00A84BE8 /* St_AddItemImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E921FB9425419FBF00A84BE8 /* St_AddItemImageCell.swift */; };
 		E9232763254AAD5200BFC450 /* St_ItemStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9232762254AAD5200BFC450 /* St_ItemStatusTests.swift */; };
+		E94A5435254AC304006B56C8 /* St_AddItemGroupSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94A5434254AC304006B56C8 /* St_AddItemGroupSelectorCell.swift */; };
+		E94A543B254AEA6B006B56C8 /* St_GroupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94A543A254AEA6B006B56C8 /* St_GroupButton.swift */; };
+		E94A5444254AF714006B56C8 /* GroupSelectorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94A5443254AF714006B56C8 /* GroupSelectorVC.swift */; };
+		E94A544C254B28F4006B56C8 /* ColorValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94A544B254B28F4006B56C8 /* ColorValueTransformer.swift */; };
 		E9A8F94B253D851D00EDDB1D /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A8F94A253D851D00EDDB1D /* UIColor+Extension.swift */; };
 		E9A8F954253DFB1E00EDDB1D /* St_ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A8F953253DFB1D00EDDB1D /* St_ItemCell.swift */; };
 		E9A8F9592540274200EDDB1D /* St_CoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A8F9582540274000EDDB1D /* St_CoreDataStore.swift */; };
@@ -71,6 +75,10 @@
 		E921FB8B2541750900A84BE8 /* St_AddItemTextInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_AddItemTextInputCell.swift; sourceTree = "<group>"; };
 		E921FB9425419FBF00A84BE8 /* St_AddItemImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_AddItemImageCell.swift; sourceTree = "<group>"; };
 		E9232762254AAD5200BFC450 /* St_ItemStatusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_ItemStatusTests.swift; sourceTree = "<group>"; };
+		E94A5434254AC304006B56C8 /* St_AddItemGroupSelectorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_AddItemGroupSelectorCell.swift; sourceTree = "<group>"; };
+		E94A543A254AEA6B006B56C8 /* St_GroupButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_GroupButton.swift; sourceTree = "<group>"; };
+		E94A5443254AF714006B56C8 /* GroupSelectorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSelectorVC.swift; sourceTree = "<group>"; };
+		E94A544B254B28F4006B56C8 /* ColorValueTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorValueTransformer.swift; sourceTree = "<group>"; };
 		E9A8F94A253D851D00EDDB1D /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		E9A8F953253DFB1D00EDDB1D /* St_ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_ItemCell.swift; sourceTree = "<group>"; };
 		E9A8F9582540274000EDDB1D /* St_CoreDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_CoreDataStore.swift; sourceTree = "<group>"; };
@@ -126,6 +134,8 @@
 		E91DAD3D2535715000D866A6 /* stufs */ = {
 			isa = PBXGroup;
 			children = (
+				E94A5442254AF6E3006B56C8 /* Views */,
+				E94A5439254AE9CD006B56C8 /* Components */,
 				E921FB8525415E4400A84BE8 /* Add Item */,
 				E9A8F9722540B46A00EDDB1D /* Models */,
 				E9A8F952253DFABC00EDDB1D /* Cells */,
@@ -170,6 +180,7 @@
 				E91DAD7C25357D9E00D866A6 /* St_Item+CoreDataClass.swift */,
 				E91DAD7D25357D9E00D866A6 /* St_Item+CoreDataProperties.swift */,
 				E9A8F9582540274000EDDB1D /* St_CoreDataStore.swift */,
+				E94A544B254B28F4006B56C8 /* ColorValueTransformer.swift */,
 			);
 			path = "Core Data";
 			sourceTree = "<group>";
@@ -188,8 +199,25 @@
 			children = (
 				E921FB8B2541750900A84BE8 /* St_AddItemTextInputCell.swift */,
 				E921FB9425419FBF00A84BE8 /* St_AddItemImageCell.swift */,
+				E94A5434254AC304006B56C8 /* St_AddItemGroupSelectorCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		E94A5439254AE9CD006B56C8 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E94A543A254AEA6B006B56C8 /* St_GroupButton.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		E94A5442254AF6E3006B56C8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E94A5443254AF714006B56C8 /* GroupSelectorVC.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		E9A8F949253D84E700EDDB1D /* Extensions */ = {
@@ -349,13 +377,17 @@
 				E91DAD7F25357D9E00D866A6 /* St_Group+CoreDataProperties.swift in Sources */,
 				E91DAD7E25357D9E00D866A6 /* St_Group+CoreDataClass.swift in Sources */,
 				E91DAD432535715000D866A6 /* ViewController.swift in Sources */,
+				E94A543B254AEA6B006B56C8 /* St_GroupButton.swift in Sources */,
 				E921FB8725415E7A00A84BE8 /* AddItemVC.swift in Sources */,
 				E9A8F9592540274200EDDB1D /* St_CoreDataStore.swift in Sources */,
 				E9A8F94B253D851D00EDDB1D /* UIColor+Extension.swift in Sources */,
 				E91DAD3F2535715000D866A6 /* AppDelegate.swift in Sources */,
+				E94A5435254AC304006B56C8 /* St_AddItemGroupSelectorCell.swift in Sources */,
+				E94A544C254B28F4006B56C8 /* ColorValueTransformer.swift in Sources */,
 				E91DAD412535715000D866A6 /* SceneDelegate.swift in Sources */,
 				E921FB8C2541750900A84BE8 /* St_AddItemTextInputCell.swift in Sources */,
 				E9A8F9742540B48B00EDDB1D /* St_ItemStatus.swift in Sources */,
+				E94A5444254AF714006B56C8 /* GroupSelectorVC.swift in Sources */,
 				E91DAD492535715000D866A6 /* stufs.xcdatamodeld in Sources */,
 				E9A8F954253DFB1E00EDDB1D /* St_ItemCell.swift in Sources */,
 				E91DAD8125357D9E00D866A6 /* St_Item+CoreDataProperties.swift in Sources */,
