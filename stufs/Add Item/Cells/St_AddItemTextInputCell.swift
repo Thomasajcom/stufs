@@ -9,7 +9,7 @@ import UIKit
 
 /// A Cell for adding text to a new item when Adding Item. The cell displays a title and a textfield with a placeholder.
 class St_AddItemTextInputCell: UITableViewCell {
-    static let reuseIdentifier = "St_TextFieldTableViewCell"
+    static let reuseIdentifier = "St_AddItemTextInputCell"
     
     private var titleLabel: UILabel! = nil
     var textField: UITextField! = nil
@@ -62,7 +62,7 @@ class St_AddItemTextInputCell: UITableViewCell {
     }
     
     // MARK: -setUpCell
-    func setUpCell(with data: St_AddItemTextFieldCellData) {
+    func setUpCell(with data: St_AddItemCellData) {
         titleLabel.text = data.title
         textField.placeholder = data.placeholder
     }

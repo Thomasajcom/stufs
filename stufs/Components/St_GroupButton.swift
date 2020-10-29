@@ -51,6 +51,13 @@ class St_GroupButton: UIButton {
         layer.masksToBounds = false
     }
     
+    // MARK: - Public config
+    func setButtonColor(to color: UIColor) {
+        layer.borderColor = color.cgColor
+        backgroundColor = color
+
+    }
+    
     // MARK: - Action
     @objc func goToGroupSelection() {
         print("going to show group selection modal!")

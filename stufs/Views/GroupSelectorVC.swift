@@ -8,8 +8,13 @@
 import UIKit
 import CoreData
 
+protocol GroupSelectorVCDelegate {
+    func updateSelectedGroup(with group: St_Group)
+}
+
 class GroupSelectorVC: UIViewController {
     
+    var groupSelectorVCDelegate: GroupSelectorVCDelegate?
     private var group: St_Group?
     private var coreDataStore: St_CoreDataStore! = nil
     
@@ -159,15 +164,16 @@ class GroupSelectorVC: UIViewController {
     /// This either creates a new group, or sets an already existing group based on collectionView selection
     @objc func setGroup() {
         //if collectview.selectedGroup == nil
+        let newGroup = St_Group(context: coreDataStore.persistentContainer.viewContext)
         if nameTextField.text?.isEmpty == false {
-            let newGroup = St_Group(context: coreDataStore.persistentContainer.viewContext)
             newGroup.name = nameTextField.text!
-            //select random color from approved colors
-            newGroup.color = UIColor.red
+            #warning("Select a random color from a predefined set of colors")
+            newGroup.color = UIColor.systemGreen
             
             coreDataStore.saveContext()
             
         }
+        groupSelectorVCDelegate?.updateSelectedGroup(with: newGroup)
         #warning("Alert user about Saved Group")
         dismiss(animated: true, completion: nil)
     }

@@ -10,20 +10,19 @@ import CoreData
 
 class AddItemVC: UIViewController {
     
-    private var container: NSPersistentCloudKitContainer! = nil
+    private var coreDataStore: St_CoreDataStore! = nil
     
     private var tabs: UISegmentedControl! = nil
     private var tableView: UITableView! = nil
-    private var itemInfoCells: [St_AddItemTextFieldCellData]! = nil
+    private var itemInfoCells: [St_AddItemCellData]! = nil
     private var acquiredInfoCell: St_AddItemTextFieldCellData! = nil
     
     private var nameTextField:UITextField! = nil
-    
 
     
-    init(container: NSPersistentCloudKitContainer) {
+    init(coreDataStore: St_CoreDataStore) {
         super.init(nibName: nil, bundle: nil)
-        self.container = container
+        self.coreDataStore = coreDataStore
     }
     
     required init?(coder: NSCoder) {
@@ -66,15 +65,14 @@ class AddItemVC: UIViewController {
     
     private func configureTableView() {
         tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.allowsSelection = false
         tableView.register(St_AddItemTextInputCell.self, forCellReuseIdentifier: St_AddItemTextInputCell.reuseIdentifier)
         tableView.register(St_AddItemImageCell.self, forCellReuseIdentifier: St_AddItemImageCell.reuseIdentifier)
+        tableView.register(St_AddItemGroupSelectorCell.self, forCellReuseIdentifier: St_AddItemGroupSelectorCell.reuseIdentifier)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = .selectedTabColor
         tableView.rowHeight = 50
-
-        
-        
         
         view.addSubview(tableView)
     }
@@ -82,7 +80,8 @@ class AddItemVC: UIViewController {
     private func configureDataSource() {
         itemInfoCells = [
             St_AddItemTextFieldCellData(title: "Name:", placeholder: "Name the item"),
-            St_AddItemTextFieldCellData(title: "fdas:", placeholder: "Wdsafdasfsda")
+            St_AddItemTextFieldCellData(title: "Wdsafdasfsda", placeholder: "fdas:"),
+            St_AddItemImageCellData(title: "Item")
         ]
         
         acquiredInfoCell = St_AddItemTextFieldCellData(title: "From:", placeholder: "Where did you acquire the item")
@@ -138,6 +137,7 @@ extension AddItemVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    // MARK: - CellForRowAt
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
         switch indexPath.section {
@@ -146,6 +146,10 @@ extension AddItemVC: UITableViewDelegate, UITableViewDataSource {
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: St_AddItemTextInputCell.reuseIdentifier) as! St_AddItemTextInputCell
                 cell.setUpCell(with: itemInfoCells[indexPath.row])
+                return cell
+            } else if indexPath.row == 1 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: St_AddItemGroupSelectorCell.reuseIdentifier) as! St_AddItemGroupSelectorCell
+                cell.groupDelegate = self
                 return cell
             }
             
@@ -174,6 +178,7 @@ extension AddItemVC: UITableViewDelegate, UITableViewDataSource {
         
     }
     
+    // MARK: - Headers
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
         label.textColor = .secondaryLabel
@@ -192,12 +197,7 @@ extension AddItemVC: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .subheadline)
-        label.text = St_ItemStatus.owned.infoText
-        label.backgroundColor = .red
         switch section {
-
         case St_AddItemSectionHeaders.photos.rawValue:
             return "Photo"
         case St_AddItemSectionHeaders.acquired.rawValue:
@@ -208,6 +208,7 @@ extension AddItemVC: UITableViewDelegate, UITableViewDataSource {
 
     }
     
+    // MARK: - Footer
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         switch section {
         case St_AddItemSectionHeaders.allCases.count:
@@ -220,14 +221,43 @@ extension AddItemVC: UITableViewDelegate, UITableViewDataSource {
         }
         
     }
+
+}
+
+extension AddItemVC: St_AddItemGroupSelectorCellDelegate {
+    func goToGroupSelection(group: St_Group?) {
+        let groupSelector = GroupSelectorVC(coreDataStore: self.coreDataStore, group: group)
+        groupSelector.groupSelectorVCDelegate = self
+        groupSelector.isModalInPresentation = true
+        present(groupSelector, animated: true)
+    }
+}
+
+extension AddItemVC: GroupSelectorVCDelegate {
+    func updateSelectedGroup(with group: St_Group) {
+        print("the selected group is:::::: \(group.name)")
+        let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? St_AddItemGroupSelectorCell
+        cell?.set(group: group)
+    }
     
     
 }
 
 
-struct St_AddItemTextFieldCellData {
-    let title: String?
-    let placeholder: String?
+protocol St_AddItemCellData {
+    var title: String {get}
+    var placeholder: String? {get}
+
+}
+
+struct St_AddItemTextFieldCellData: St_AddItemCellData {
+    var title: String
+    var placeholder: String?
+}
+
+struct St_AddItemImageCellData: St_AddItemCellData {
+    var title: String
+    var placeholder: String?
 }
 
 enum St_AddItemSectionHeaders: Int, CaseIterable {
