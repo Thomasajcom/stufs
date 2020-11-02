@@ -79,7 +79,7 @@ class St_AddItemWarrantyCell: UITableViewCell {
     
     /// when a waranty is set, the textfield must reflect this
     func setWarrantyLength(days: Int) {
-        textField.text = "\(days) days until warranty expires"
+        textField.text = "Expires in \(days) days"
     }
 }
 
@@ -87,14 +87,11 @@ class St_AddItemWarrantyCell: UITableViewCell {
 extension St_AddItemWarrantyCell: UITextFieldDelegate {
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        print("editing should begin, transition awaaaaay")
         warrantyDelegate?.goToWarrantyPicker()
-
         return false
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print("SHOULD END EDIDITNITINTNINTINT")
         textField.resignFirstResponder()
         return true
     }

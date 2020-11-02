@@ -75,6 +75,7 @@ class AddItemVC: UIViewController {
         tableView.register(St_AddItemImageCell.self, forCellReuseIdentifier: St_AddItemImageCell.reuseIdentifier)
         tableView.register(St_AddItemGroupSelectorCell.self, forCellReuseIdentifier: St_AddItemGroupSelectorCell.reuseIdentifier)
         tableView.register(St_AddItemWarrantyCell.self, forCellReuseIdentifier: St_AddItemWarrantyCell.reuseIdentifier)
+        tableView.register(St_AddItemAcquiredDateCell.self, forCellReuseIdentifier: St_AddItemAcquiredDateCell.reuseIdentifier)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = .selectedTabColor
@@ -121,7 +122,7 @@ extension AddItemVC: UITableViewDelegate, UITableViewDataSource {
         switch section {
         // Info Section
         case 0:
-            return 5
+            return 3
         // Photo Section
         case 1:
             return 1
@@ -155,12 +156,7 @@ extension AddItemVC: UITableViewDelegate, UITableViewDataSource {
                 cell.warrantyDelegate = self
                 cell.setUpCell(title: "Warranty:", placeholder: "How long is the warranty?")
                 return cell
-
-            } else if indexPath.row == 3 {
-                // Item NOTES
-
             }
-            
         // Photo Section
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: St_AddItemImageCell.reuseIdentifier) as! St_AddItemImageCell
@@ -174,10 +170,10 @@ extension AddItemVC: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }else {
                 // Item ACQUIRED WHEN
-                let cell = UITableViewCell()
+                let cell = tableView.dequeueReusableCell(withIdentifier: St_AddItemAcquiredDateCell.reuseIdentifier) as! St_AddItemAcquiredDateCell
+                cell.setUpCell(title: "When:", placeholder: "When was the item acquired?")
                 return cell
             }
-            
         default:
             let cell = UITableViewCell()
             return cell

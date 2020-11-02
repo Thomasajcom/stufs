@@ -14,6 +14,7 @@ class St_AddItemTextInputCell: UITableViewCell {
     private var titleLabel: UILabel! = nil
     var textField: UITextField! = nil
     
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -77,9 +78,7 @@ class St_AddItemTextInputCell: UITableViewCell {
 // MARK: - UITextFieldDelegate
 extension St_AddItemTextInputCell: UITextFieldDelegate {
 
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print("SHOULD END EDIDITNITINTNINTINT")
         textField.resignFirstResponder()
         return true
     }

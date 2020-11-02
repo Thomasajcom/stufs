@@ -150,7 +150,7 @@ class WarrantyPickerVC: UIViewController {
             numberPicker.topAnchor.constraint(equalToSystemSpacingBelow: infoLabel.bottomAnchor, multiplier: 1),
             numberPicker.leadingAnchor.constraint(equalTo: cardView.layoutMarginsGuide.leadingAnchor),
             numberPicker.trailingAnchor.constraint(equalTo: cardView.layoutMarginsGuide.trailingAnchor),
-            numberPicker.bottomAnchor.constraint(equalTo: buttonStack.topAnchor),
+            numberPicker.bottomAnchor.constraint(lessThanOrEqualTo: buttonStack.topAnchor),
             buttonStack.bottomAnchor.constraint(equalTo: cardView.bottomAnchor),
             buttonStack.leadingAnchor.constraint(equalTo: cardView.leadingAnchor),
             buttonStack.trailingAnchor.constraint(equalTo: cardView.trailingAnchor)

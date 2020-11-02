@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E90628A0254FF6C600A11A70 /* St_AddItemWarrantyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E906289F254FF6C600A11A70 /* St_AddItemWarrantyCell.swift */; };
 		E90628A5255003AC00A11A70 /* WarrantyPickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90628A4255003AC00A11A70 /* WarrantyPickerVC.swift */; };
+		E90628AA255067E800A11A70 /* St_AddItemAcquiredDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90628A9255067E800A11A70 /* St_AddItemAcquiredDateCell.swift */; };
 		E91DAD3F2535715000D866A6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91DAD3E2535715000D866A6 /* AppDelegate.swift */; };
 		E91DAD412535715000D866A6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91DAD402535715000D866A6 /* SceneDelegate.swift */; };
 		E91DAD432535715000D866A6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91DAD422535715000D866A6 /* ViewController.swift */; };
@@ -58,6 +59,7 @@
 /* Begin PBXFileReference section */
 		E906289F254FF6C600A11A70 /* St_AddItemWarrantyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_AddItemWarrantyCell.swift; sourceTree = "<group>"; };
 		E90628A4255003AC00A11A70 /* WarrantyPickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarrantyPickerVC.swift; sourceTree = "<group>"; };
+		E90628A9255067E800A11A70 /* St_AddItemAcquiredDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_AddItemAcquiredDateCell.swift; sourceTree = "<group>"; };
 		E91DAD3B2535715000D866A6 /* stufs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = stufs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E91DAD3E2535715000D866A6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E91DAD402535715000D866A6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				E921FB8B2541750900A84BE8 /* St_AddItemTextInputCell.swift */,
+				E90628A9255067E800A11A70 /* St_AddItemAcquiredDateCell.swift */,
 				E921FB9425419FBF00A84BE8 /* St_AddItemImageCell.swift */,
 				E94A5434254AC304006B56C8 /* St_AddItemGroupSelectorCell.swift */,
 				E906289F254FF6C600A11A70 /* St_AddItemWarrantyCell.swift */,
@@ -396,6 +399,7 @@
 				E90628A0254FF6C600A11A70 /* St_AddItemWarrantyCell.swift in Sources */,
 				E90628A5255003AC00A11A70 /* WarrantyPickerVC.swift in Sources */,
 				E91DAD432535715000D866A6 /* ViewController.swift in Sources */,
+				E90628AA255067E800A11A70 /* St_AddItemAcquiredDateCell.swift in Sources */,
 				E94A543B254AEA6B006B56C8 /* St_GroupButton.swift in Sources */,
 				E921FB8725415E7A00A84BE8 /* AddItemVC.swift in Sources */,
 				E9A8F9592540274200EDDB1D /* St_CoreDataStore.swift in Sources */,
