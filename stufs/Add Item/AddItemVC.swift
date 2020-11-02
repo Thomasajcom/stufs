@@ -8,6 +8,10 @@
 import UIKit
 import CoreData
 
+enum St_AddItemSectionHeaders: Int, CaseIterable {
+    case info = 0, photos, acquired
+}
+
 class AddItemVC: UIViewController {
     
     private var coreDataStore: St_CoreDataStore! = nil
@@ -15,8 +19,7 @@ class AddItemVC: UIViewController {
     
     private var tabs: UISegmentedControl! = nil
     private var tableView: UITableView! = nil
-    private var itemInfoCells: [St_AddItemCellData]! = nil
-    private var acquiredInfoCell: St_AddItemTextFieldCellData! = nil
+
     
     private var nameTextField:UITextField! = nil
 
@@ -36,7 +39,7 @@ class AddItemVC: UIViewController {
         configureView()
         configureTabs()
         configureTableView()
-        configureDataSource()
+//        configureDataSource()
         configureConstraints()
     }
     
@@ -71,22 +74,13 @@ class AddItemVC: UIViewController {
         tableView.register(St_AddItemTextInputCell.self, forCellReuseIdentifier: St_AddItemTextInputCell.reuseIdentifier)
         tableView.register(St_AddItemImageCell.self, forCellReuseIdentifier: St_AddItemImageCell.reuseIdentifier)
         tableView.register(St_AddItemGroupSelectorCell.self, forCellReuseIdentifier: St_AddItemGroupSelectorCell.reuseIdentifier)
+        tableView.register(St_AddItemWarrantyCell.self, forCellReuseIdentifier: St_AddItemWarrantyCell.reuseIdentifier)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = .selectedTabColor
         tableView.rowHeight = 50
         
         view.addSubview(tableView)
-    }
-    
-    private func configureDataSource() {
-        itemInfoCells = [
-            St_AddItemTextFieldCellData(title: "Name:", placeholder: "Name the item"),
-            St_AddItemTextFieldCellData(title: "Wdsafdasfsda", placeholder: "fdas:"),
-            St_AddItemImageCellData(title: "Item")
-        ]
-        
-        acquiredInfoCell = St_AddItemTextFieldCellData(title: "From:", placeholder: "Where did you acquire the item")
     }
     
     // MARK: - Actions
@@ -148,7 +142,7 @@ extension AddItemVC: UITableViewDelegate, UITableViewDataSource {
             if indexPath.row == 0 {
                 // Item NAME
                 let cell = tableView.dequeueReusableCell(withIdentifier: St_AddItemTextInputCell.reuseIdentifier) as! St_AddItemTextInputCell
-                cell.setUpCell(with: itemInfoCells[indexPath.row])
+                cell.setUpCell(title: "Name:", placeholder: "Name the item")
                 return cell
             } else if indexPath.row == 1 {
                 // Item GROUP
@@ -157,6 +151,10 @@ extension AddItemVC: UITableViewDelegate, UITableViewDataSource {
                 return cell
             } else if indexPath.row == 2 {
                 // Item WARRANTY LENGTH
+                let cell = tableView.dequeueReusableCell(withIdentifier: St_AddItemWarrantyCell.reuseIdentifier) as! St_AddItemWarrantyCell
+                cell.warrantyDelegate = self
+                cell.setUpCell(title: "Warranty:", placeholder: "How long is the warranty?")
+                return cell
 
             } else if indexPath.row == 3 {
                 // Item NOTES
@@ -172,7 +170,7 @@ extension AddItemVC: UITableViewDelegate, UITableViewDataSource {
             if indexPath.row == 0 {
                 // Item ACQUIRED WHERE
                 let cell = tableView.dequeueReusableCell(withIdentifier: St_AddItemTextInputCell.reuseIdentifier) as! St_AddItemTextInputCell
-                cell.setUpCell(with: acquiredInfoCell)
+                cell.setUpCell(title: "Where:", placeholder: "Where was the item acquired?")
                 return cell
             }else {
                 // Item ACQUIRED WHEN
@@ -236,6 +234,7 @@ extension AddItemVC: UITableViewDelegate, UITableViewDataSource {
 
 }
 
+// MARK: - St_AddItemGroupSelectorCellDelegate
 extension AddItemVC: St_AddItemGroupSelectorCellDelegate {
     func goToGroupSelection(group: St_Group?) {
         let groupSelector = GroupSelectorVC(coreDataStore: self.coreDataStore, group: group)
@@ -255,25 +254,20 @@ extension AddItemVC: GroupSelectorVCDelegate {
     }
 }
 
-
-protocol St_AddItemCellData {
-    var title: String {get}
-    var placeholder: String? {get}
-
+// MARK: - WarrantyLengthDelegate
+extension AddItemVC: St_AddItemWarrantyCellDelegate {
+    func goToWarrantyPicker() {
+        let warrantyPicker = WarrantyPickerVC()
+        warrantyPicker.warrantyPickerDelegate = self
+        present(warrantyPicker, animated: true)
+    }
 }
 
-struct St_AddItemTextFieldCellData: St_AddItemCellData {
-    var title: String
-    var placeholder: String?
+extension AddItemVC: WarrantyPickerVCDelegate {
+    func setWarrantyLength(_ warrantyLength: WarrantyLength) {
+        self.newItem.warrantyLength = Int64(warrantyLength.warrantyLengthInDays)
+        
+        let cell = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? St_AddItemWarrantyCell
+        cell?.setWarrantyLength(days: warrantyLength.warrantyLengthInDays)
+    }
 }
-
-struct St_AddItemImageCellData: St_AddItemCellData {
-    var title: String
-    var placeholder: String?
-}
-
-enum St_AddItemSectionHeaders: Int, CaseIterable {
-    case info = 0, photos, acquired
-}
-
-

@@ -48,6 +48,7 @@ class St_CoreDataStore {
     }
     
     func saveContext() {
+        print("We're trying to save!")
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {

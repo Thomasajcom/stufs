@@ -26,13 +26,14 @@ class CoreDataTests: XCTestCase {
         coreDataStore.saveContext()
     }
     
-    /// Fetching all St_Items, should only be 1, the item  created in the setUp
+    /// Fetching all St_Item, should only be 1, the item  created in the setUp
     func testFetchAllItems() {
         XCTAssertTrue(coreDataStore.fetchAllItems().count == 1)
     }
     
+    /// Fetching all St_Group, should only be 1, the group created in the setUp
     func testFetchAllGroups() {
-        XCTAssertTrue(coreDataStore.fetchAllGroups().count == 0)
+        XCTAssertTrue(coreDataStore.fetchAllGroups().count == 1)
     }
     
     func testAddSt_Group() {

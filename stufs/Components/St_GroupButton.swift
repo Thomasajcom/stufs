@@ -8,7 +8,6 @@
 import UIKit
 
 /// A Button showing the item's currently selected Group
-/// When pressing the button the Select Group modal opens, and lets user change the group of the current item.
 /// When there is no selected Group for an item, which only should be allowed when creating a new item, the button displays a text urging user to tap it.
 class St_GroupButton: UIButton {
     
@@ -24,8 +23,6 @@ class St_GroupButton: UIButton {
             backgroundColor = .systemRed
 
         }
-        addTarget(self, action: #selector(goToGroupSelection), for: .touchUpInside)
-        
         translatesAutoresizingMaskIntoConstraints = false
         
         configureBorder()
@@ -56,13 +53,6 @@ class St_GroupButton: UIButton {
         layer.borderColor = color.cgColor
         backgroundColor = color
 
-    }
-    
-    // MARK: - Action
-    @objc func goToGroupSelection() {
-        print("going to show group selection modal!")
-       
-        
     }
     
 }

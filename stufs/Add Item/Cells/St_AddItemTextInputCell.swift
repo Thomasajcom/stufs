@@ -26,6 +26,11 @@ class St_AddItemTextInputCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // we add this to enable the removal of the keyboard by pressing outside the nameTextField
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        contentView.endEditing(true)
+    }
+    
     // MARK: - Configure
     private func configureLabel() {
         titleLabel = UILabel()
@@ -62,22 +67,9 @@ class St_AddItemTextInputCell: UITableViewCell {
     }
     
     // MARK: -setUpCell
-    func setUpCell(with data: St_AddItemCellData) {
-        titleLabel.text = data.title
-        textField.placeholder = data.placeholder
-    }
-    
-   
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    func setUpCell(title: String, placeholder: String) {
+        titleLabel.text = title
+        textField.placeholder = placeholder
     }
 
 }
