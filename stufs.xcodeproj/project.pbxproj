@@ -10,6 +10,8 @@
 		E90628A0254FF6C600A11A70 /* St_AddItemWarrantyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E906289F254FF6C600A11A70 /* St_AddItemWarrantyCell.swift */; };
 		E90628A5255003AC00A11A70 /* WarrantyPickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90628A4255003AC00A11A70 /* WarrantyPickerVC.swift */; };
 		E90628AA255067E800A11A70 /* St_AddItemAcquiredDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90628A9255067E800A11A70 /* St_AddItemAcquiredDateCell.swift */; };
+		E90628AF25519B0D00A11A70 /* AddItemVC+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90628AE25519B0C00A11A70 /* AddItemVC+Extension.swift */; };
+		E90628B425519D6800A11A70 /* WarrantyPickerHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90628B325519D6800A11A70 /* WarrantyPickerHelpers.swift */; };
 		E91DAD3F2535715000D866A6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91DAD3E2535715000D866A6 /* AppDelegate.swift */; };
 		E91DAD412535715000D866A6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91DAD402535715000D866A6 /* SceneDelegate.swift */; };
 		E91DAD432535715000D866A6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91DAD422535715000D866A6 /* ViewController.swift */; };
@@ -60,6 +62,8 @@
 		E906289F254FF6C600A11A70 /* St_AddItemWarrantyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_AddItemWarrantyCell.swift; sourceTree = "<group>"; };
 		E90628A4255003AC00A11A70 /* WarrantyPickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarrantyPickerVC.swift; sourceTree = "<group>"; };
 		E90628A9255067E800A11A70 /* St_AddItemAcquiredDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_AddItemAcquiredDateCell.swift; sourceTree = "<group>"; };
+		E90628AE25519B0C00A11A70 /* AddItemVC+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddItemVC+Extension.swift"; sourceTree = "<group>"; };
+		E90628B325519D6800A11A70 /* WarrantyPickerHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarrantyPickerHelpers.swift; sourceTree = "<group>"; };
 		E91DAD3B2535715000D866A6 /* stufs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = stufs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E91DAD3E2535715000D866A6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E91DAD402535715000D866A6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -198,7 +202,9 @@
 			children = (
 				E921FB9325419F9200A84BE8 /* Cells */,
 				E921FB8625415E7900A84BE8 /* AddItemVC.swift */,
+				E90628AE25519B0C00A11A70 /* AddItemVC+Extension.swift */,
 				E90628A4255003AC00A11A70 /* WarrantyPickerVC.swift */,
+				E90628B325519D6800A11A70 /* WarrantyPickerHelpers.swift */,
 			);
 			path = "Add Item";
 			sourceTree = "<group>";
@@ -400,6 +406,7 @@
 				E90628A5255003AC00A11A70 /* WarrantyPickerVC.swift in Sources */,
 				E91DAD432535715000D866A6 /* ViewController.swift in Sources */,
 				E90628AA255067E800A11A70 /* St_AddItemAcquiredDateCell.swift in Sources */,
+				E90628B425519D6800A11A70 /* WarrantyPickerHelpers.swift in Sources */,
 				E94A543B254AEA6B006B56C8 /* St_GroupButton.swift in Sources */,
 				E921FB8725415E7A00A84BE8 /* AddItemVC.swift in Sources */,
 				E9A8F9592540274200EDDB1D /* St_CoreDataStore.swift in Sources */,
@@ -414,6 +421,7 @@
 				E91DAD492535715000D866A6 /* stufs.xcdatamodeld in Sources */,
 				E9A8F954253DFB1E00EDDB1D /* St_ItemCell.swift in Sources */,
 				E91DAD8125357D9E00D866A6 /* St_Item+CoreDataProperties.swift in Sources */,
+				E90628AF25519B0D00A11A70 /* AddItemVC+Extension.swift in Sources */,
 				E91DAD8025357D9E00D866A6 /* St_Item+CoreDataClass.swift in Sources */,
 				E94A5461254FEBC7006B56C8 /* St_GroupGroupSelectorCell.swift in Sources */,
 			);
