@@ -14,15 +14,15 @@ enum St_AddItemSectionHeaders: Int, CaseIterable {
 
 class AddItemVC: UIViewController {
     
-    private var coreDataStore: St_CoreDataStore! = nil
-    private var newItem: St_Item! = nil
+    var coreDataStore: St_CoreDataStore! = nil
+    var newItem: St_Item! = nil
     
     private var tabs: UISegmentedControl! = nil
-    private var tableView: UITableView! = nil
-
-    
-    private var nameTextField:UITextField! = nil
-
+    var tableView: UITableView! = nil
+    var selectedImage: St_AddItemImage?
+    private var okButton: UIButton! = nil
+    private var cancelButton: UIButton! = nil
+    private var buttonStack: UIStackView! = nil
     
     init(coreDataStore: St_CoreDataStore) {
         super.init(nibName: nil, bundle: nil)
@@ -39,7 +39,7 @@ class AddItemVC: UIViewController {
         configureView()
         configureTabs()
         configureTableView()
-//        configureDataSource()
+        configureSaveButton()
         configureConstraints()
     }
     
@@ -68,6 +68,7 @@ class AddItemVC: UIViewController {
         view.addSubview(tabs)
     }
     
+    // MARK: - ConfigureTableView
     private func configureTableView() {
         tableView = UITableView(frame: .zero, style: .grouped)
         tableView.allowsSelection = false
@@ -79,15 +80,75 @@ class AddItemVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = .selectedTabColor
-        tableView.rowHeight = 50
         
         view.addSubview(tableView)
     }
     
-    // MARK: - Actions
-    
-    @objc private func setAsFavorite(sender: UIBarButtonItem) {
+    // MARK: - ConfigureSaveButton
+    private func configureSaveButton() {
+        cancelButton = UIButton(type: .custom)
+        cancelButton.setTitle("Cancel", for: .normal)
+        cancelButton.setTitleColor(.label, for: .normal)
+        cancelButton.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
         
+        okButton = UIButton(type: .custom)
+        okButton.setTitle("Create Group", for: .normal)
+        okButton.setTitleColor(.secondaryLabel, for: .normal)
+        okButton.addTarget(self, action: #selector(saveItem), for: .touchUpInside)
+        
+        buttonStack = UIStackView(arrangedSubviews: [cancelButton, okButton])
+        buttonStack.axis = .horizontal
+        buttonStack.alignment = .center
+        buttonStack.distribution = .fillEqually
+        
+        view.addSubview(buttonStack)
+    }
+    
+    // MARK: - Actions
+    @objc func dismissView() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func saveItem() {
+        print("newItem er: \(String(describing: self.newItem))")
+        let index = IndexPath(row: 0, section: 0)
+            let cell: St_AddItemTextInputCell = self.tableView.cellForRow(at: index) as! St_AddItemTextInputCell
+        print(cell.textField.text!)
+        let nameCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! St_AddItemTextInputCell
+        if let newName = nameCell.textField.text {
+            if newName.count > 0 {
+                self.newItem.name = newName
+
+            } else {
+                #warning("Alert user to add a name")
+                return
+            }
+        } else {
+            return
+        }
+        
+        let acquiredFromCell = tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? St_AddItemTextInputCell
+        if let newName = acquiredFromCell?.textField.text {
+            if newName.count > 0 {
+                self.newItem.name = newName
+            }
+        }
+        let acquiredDateCell = tableView.cellForRow(at: IndexPath(row: 1, section: 2)) as? St_AddItemAcquiredDateCell
+        self.newItem.acquiredDate = acquiredDateCell?.datePicker.date
+
+        /*
+acquiredDate = nil;
+acquiredFrom = nil;
+         discardedDate = nil;
+         favorite = nil;
+group = "0x8bf400189fa87ece <x-coredata://86A980BB-112B-42B1-B8C5-1D392A0FA110/St_Group/p1>";
+itemPhoto = nil;
+name = nil;
+            notes = nil;
+receiptPhoto = nil;
+         status = nil;
+         */
+        dismiss(animated: true, completion: nil)
     }
     
     @objc private func tabChanged(sender: UISegmentedControl) {
@@ -98,6 +159,7 @@ class AddItemVC: UIViewController {
     private func configureConstraints() {
         tabs.translatesAutoresizingMaskIntoConstraints = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        buttonStack.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             tabs.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 1),
@@ -107,8 +169,10 @@ class AddItemVC: UIViewController {
             tableView.topAnchor.constraint(equalTo: tabs.bottomAnchor, constant: -5),
             tableView.leadingAnchor.constraint(equalTo: tabs.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: tabs.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-        
+            tableView.bottomAnchor.constraint(equalTo: buttonStack.topAnchor),
+            buttonStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            buttonStack.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            buttonStack.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
         ])
     }
 }
@@ -143,7 +207,8 @@ extension AddItemVC: UITableViewDelegate, UITableViewDataSource {
             if indexPath.row == 0 {
                 // Item NAME
                 let cell = tableView.dequeueReusableCell(withIdentifier: St_AddItemTextInputCell.reuseIdentifier) as! St_AddItemTextInputCell
-                cell.setUpCell(title: "Name:", placeholder: "Name the item")
+                cell.addItemTextInputDelegate = self
+                cell.setUpCell(title: .itemName, placeholder: "Name the item")
                 return cell
             } else if indexPath.row == 1 {
                 // Item GROUP
@@ -160,13 +225,14 @@ extension AddItemVC: UITableViewDelegate, UITableViewDataSource {
         // Photo Section
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: St_AddItemImageCell.reuseIdentifier) as! St_AddItemImageCell
+            cell.addItemImageDelegate = self
             return cell
         // Acquired Section
         case 2:
             if indexPath.row == 0 {
                 // Item ACQUIRED WHERE
                 let cell = tableView.dequeueReusableCell(withIdentifier: St_AddItemTextInputCell.reuseIdentifier) as! St_AddItemTextInputCell
-                cell.setUpCell(title: "Where:", placeholder: "Where was the item acquired?")
+                cell.setUpCell(title: .acquiredFrom, placeholder: "Where was the item acquired?")
                 return cell
             }else {
                 // Item ACQUIRED WHEN
@@ -200,8 +266,6 @@ extension AddItemVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    
-    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case St_AddItemSectionHeaders.photos.rawValue:
@@ -212,58 +276,5 @@ extension AddItemVC: UITableViewDelegate, UITableViewDataSource {
             return nil
         }
 
-    }
-    
-    // MARK: - Footer
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        switch section {
-        case St_AddItemSectionHeaders.allCases.count:
-            let saveButton = UIButton(type: .custom)
-            saveButton.setImage(UIImage(systemName: "star"), for: .normal)
-            saveButton.setTitle("SAVE ITEM", for: .normal)
-            return saveButton
-        default:
-            return nil
-        }
-        
-    }
-
-}
-
-// MARK: - St_AddItemGroupSelectorCellDelegate
-extension AddItemVC: St_AddItemGroupSelectorCellDelegate {
-    func goToGroupSelection(group: St_Group?) {
-        let groupSelector = GroupSelectorVC(coreDataStore: self.coreDataStore, group: group)
-        groupSelector.groupSelectorVCDelegate = self
-        groupSelector.isModalInPresentation = true
-        present(groupSelector, animated: true)
-    }
-}
-
-
-// MARK: - GroupSelectorVCDelegate
-extension AddItemVC: GroupSelectorVCDelegate {
-    func updateSelectedGroup(with group: St_Group) {
-        self.newItem.group = group
-        let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? St_AddItemGroupSelectorCell
-        cell?.set(group: group)
-    }
-}
-
-// MARK: - WarrantyLengthDelegate
-extension AddItemVC: St_AddItemWarrantyCellDelegate {
-    func goToWarrantyPicker() {
-        let warrantyPicker = WarrantyPickerVC()
-        warrantyPicker.warrantyPickerDelegate = self
-        present(warrantyPicker, animated: true)
-    }
-}
-
-extension AddItemVC: WarrantyPickerVCDelegate {
-    func setWarrantyLength(_ warrantyLength: WarrantyLength) {
-        self.newItem.warrantyLength = Int64(warrantyLength.warrantyLengthInDays)
-        
-        let cell = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? St_AddItemWarrantyCell
-        cell?.setWarrantyLength(days: warrantyLength.warrantyLengthInDays)
     }
 }
