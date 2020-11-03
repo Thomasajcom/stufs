@@ -38,9 +38,7 @@ class St_AddItemAcquiredDateCell: UITableViewCell {
     private func configureDatePicker() {
         datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
-        datePicker.minimumDate = Date() - 100
-        
-        
+
         contentView.addSubview(datePicker)
     }
     
@@ -48,11 +46,12 @@ class St_AddItemAcquiredDateCell: UITableViewCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 1),
-            titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            datePicker.leadingAnchor.constraint(lessThanOrEqualToSystemSpacingAfter: titleLabel.trailingAnchor, multiplier: 1),
+            contentView.layoutMarginsGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 1),
+            datePicker.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             datePicker.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-            datePicker.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            contentView.layoutMarginsGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: datePicker.bottomAnchor, multiplier: 1),
         ])
     }
     

@@ -52,11 +52,13 @@ class St_AddItemGroupSelectorCell: UITableViewCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 1),
-            titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            contentView.layoutMarginsGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 1),
+            selectGroupButton.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             selectGroupButton.leadingAnchor.constraint(equalToSystemSpacingAfter: titleLabel.trailingAnchor, multiplier: 1),
             selectGroupButton.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-            selectGroupButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            contentView.layoutMarginsGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: selectGroupButton.bottomAnchor, multiplier: 1),
         ])
         
     }

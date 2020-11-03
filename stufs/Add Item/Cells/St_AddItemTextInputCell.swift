@@ -7,12 +7,21 @@
 
 import UIKit
 
+enum TextFieldIdentifier: String {
+    case itemName = "Name:"
+    case acquiredFrom = "From:"
+}
+protocol St_AddItemTextInputCellDelegate {
+    func textFieldWasSet(to name: String, for textField: TextFieldIdentifier)
+}
 /// A Cell for adding text to a new item when Adding Item. The cell displays a title and a textfield with a placeholder.
 class St_AddItemTextInputCell: UITableViewCell {
     static let reuseIdentifier = "St_AddItemTextInputCell"
     
     private var titleLabel: UILabel! = nil
     var textField: UITextField! = nil
+    var addItemTextInputDelegate: St_AddItemTextInputCellDelegate?
+    var textFieldName: TextFieldIdentifier?
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -59,17 +68,20 @@ class St_AddItemTextInputCell: UITableViewCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         textField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 1),
-            titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            contentView.layoutMarginsGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 1),
+            textField.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             textField.leadingAnchor.constraint(equalToSystemSpacingAfter: titleLabel.trailingAnchor, multiplier: 1),
             textField.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-            textField.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            contentView.layoutMarginsGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: textField.bottomAnchor, multiplier: 1),
         ])
     }
     
     // MARK: -setUpCell
-    func setUpCell(title: String, placeholder: String) {
-        titleLabel.text = title
+    func setUpCell(title: TextFieldIdentifier, placeholder: String) {
+        textFieldName = title
+        titleLabel.text = title.rawValue
         textField.placeholder = placeholder
     }
 
@@ -80,6 +92,9 @@ extension St_AddItemTextInputCell: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        if textFieldName != nil {
+            addItemTextInputDelegate?.textFieldWasSet(to: textField.text!, for: textFieldName!)
+        }
         return true
     }
 }
