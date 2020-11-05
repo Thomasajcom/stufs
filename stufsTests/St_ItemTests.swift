@@ -13,6 +13,7 @@ class St_ItemTests: XCTestCase {
     
     var coreDataStore: St_CoreDataStore!
     var item: St_Item!
+    var group: St_Group!
     
     override func setUp() {
         super.setUp()
@@ -20,10 +21,10 @@ class St_ItemTests: XCTestCase {
         item = St_Item(context: coreDataStore.persistentContainer.viewContext)
         item.name = "iPhone 12"
         item.favorite = true
-        let newGroup = St_Group(context: coreDataStore.persistentContainer.viewContext)
-        newGroup.name = "New Group"
-        newGroup.color = UIColor.systemGreen
-        item.group = newGroup
+        group = St_Group(context: coreDataStore.persistentContainer.viewContext)
+        group.name = "New Group"
+        group.color = UIColor.systemGreen
+        item.group = group
 
         coreDataStore.saveContext()
     }
@@ -38,6 +39,11 @@ class St_ItemTests: XCTestCase {
         XCTAssertTrue(item.canBeSaved())
         item.name = ""
         XCTAssertFalse(item.canBeSaved())
+        item.name = "iPhone 12"
+        item.group = nil
+        XCTAssertFalse(item.canBeSaved())
+        item.group = group
+        XCTAssertTrue(item.canBeSaved())
     }
     
     
