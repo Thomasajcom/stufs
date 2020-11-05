@@ -11,13 +11,13 @@ import UIKit
 // MARK: - St_AddItemTextInputCellDelegate
 extension AddItemVC: St_AddItemTextInputCellDelegate {
     func textFieldWasSet(to name: String, for textFieldIdentifier: TextFieldIdentifier) {
-        print("delegate LOOOOOOOLLL!L!L!L!L!L!L!L!")
         switch textFieldIdentifier {
         case .itemName:
             self.newItem.name = name
         case .acquiredFrom:
             self.newItem.acquiredFrom = name
         }
+        self.canItemBeSaved()
     }
     
     
@@ -40,6 +40,7 @@ extension AddItemVC: GroupSelectorVCDelegate {
         self.newItem.group = group
         let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? St_AddItemGroupSelectorCell
         cell?.set(group: group)
+        self.canItemBeSaved()
     }
 }
 
@@ -82,8 +83,8 @@ extension AddItemVC: St_AddItemImageCellDelegate {
     }
 }
 
-// MARK: - UIImagePickerControllerDelegate U
-extension AddItemVC: UIImagePickerControllerDelegate {
+// MARK: - UIImagePickerControllerDelegate
+extension AddItemVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         let editedImage: UIImage? = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
@@ -121,9 +122,5 @@ extension AddItemVC: UIImagePickerControllerDelegate {
             print("dismissed imagepicker after user cancelled")
         }
     }
-    
-}
-// MARK: - UINavigationControllerDelegate
-extension AddItemVC: UINavigationControllerDelegate {
     
 }

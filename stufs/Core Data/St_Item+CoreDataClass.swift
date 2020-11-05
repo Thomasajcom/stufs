@@ -17,4 +17,18 @@ public class St_Item: NSManagedObject {
     func toggleFavoriteStatus() {
         self.favorite.toggle()
     }
+    
+    /// Checks if the item is ready to be saved to the core data store
+    /// - Returns: A boolean value based on certain item properties
+    func canBeSaved() -> Bool {
+        var nameOk = false
+        var groupOk = false
+        if name as String? != nil && name.count > 0 {
+            nameOk = true
+        }
+        if group != nil {
+            groupOk = true
+        }
+        return nameOk && groupOk
+    }
 }

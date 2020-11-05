@@ -20,7 +20,7 @@ class AddItemVC: UIViewController {
     private var tabs: UISegmentedControl! = nil
     var tableView: UITableView! = nil
     var selectedImage: St_AddItemImage?
-    private var okButton: UIButton! = nil
+    var okButton: UIButton! = nil
     private var cancelButton: UIButton! = nil
     private var buttonStack: UIStackView! = nil
     
@@ -92,9 +92,10 @@ class AddItemVC: UIViewController {
         cancelButton.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
         
         okButton = UIButton(type: .custom)
-        okButton.setTitle("Create Group", for: .normal)
+        okButton.setTitle("Save Item", for: .normal)
         okButton.setTitleColor(.secondaryLabel, for: .normal)
         okButton.addTarget(self, action: #selector(saveItem), for: .touchUpInside)
+        okButton.isEnabled = false
         
         buttonStack = UIStackView(arrangedSubviews: [cancelButton, okButton])
         buttonStack.axis = .horizontal
@@ -111,48 +112,30 @@ class AddItemVC: UIViewController {
     
     @objc func saveItem() {
         print("newItem er: \(String(describing: self.newItem))")
-        let index = IndexPath(row: 0, section: 0)
-            let cell: St_AddItemTextInputCell = self.tableView.cellForRow(at: index) as! St_AddItemTextInputCell
-        print(cell.textField.text!)
-        let nameCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! St_AddItemTextInputCell
-        if let newName = nameCell.textField.text {
-            if newName.count > 0 {
-                self.newItem.name = newName
-
-            } else {
-                #warning("Alert user to add a name")
-                return
-            }
-        } else {
-            return
+        do {
+            try coreDataStore.persistentContainer.viewContext.save()
+        } catch {
+            print("failed to save")
         }
-        
-        let acquiredFromCell = tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? St_AddItemTextInputCell
-        if let newName = acquiredFromCell?.textField.text {
-            if newName.count > 0 {
-                self.newItem.name = newName
-            }
-        }
-        let acquiredDateCell = tableView.cellForRow(at: IndexPath(row: 1, section: 2)) as? St_AddItemAcquiredDateCell
-        self.newItem.acquiredDate = acquiredDateCell?.datePicker.date
-
-        /*
-acquiredDate = nil;
-acquiredFrom = nil;
-         discardedDate = nil;
-         favorite = nil;
-group = "0x8bf400189fa87ece <x-coredata://86A980BB-112B-42B1-B8C5-1D392A0FA110/St_Group/p1>";
-itemPhoto = nil;
-name = nil;
-            notes = nil;
-receiptPhoto = nil;
-         status = nil;
-         */
         dismiss(animated: true, completion: nil)
     }
     
     @objc private func tabChanged(sender: UISegmentedControl) {
 
+    }
+    
+    // MARK: - Helper Functions
+    
+    /// Checks if the Item is ready to be saved.
+    /// If it is, the Save Item button will be enabled and colored
+    func canItemBeSaved(){
+        if newItem.canBeSaved() {
+            self.okButton.isEnabled = true
+            self.okButton.setTitleColor(.St_primaryColor, for: .normal)
+        } else {
+            self.okButton.isEnabled = false
+            self.okButton.setTitleColor(.secondaryLabel, for: .normal)
+        }
     }
     
     // MARK: - Constraints
@@ -208,7 +191,7 @@ extension AddItemVC: UITableViewDelegate, UITableViewDataSource {
                 // Item NAME
                 let cell = tableView.dequeueReusableCell(withIdentifier: St_AddItemTextInputCell.reuseIdentifier) as! St_AddItemTextInputCell
                 cell.addItemTextInputDelegate = self
-                cell.setUpCell(title: .itemName, placeholder: "Name the item")
+                cell.setUpCell(id: .itemName, placeholder: "Name the item")
                 return cell
             } else if indexPath.row == 1 {
                 // Item GROUP
@@ -232,7 +215,8 @@ extension AddItemVC: UITableViewDelegate, UITableViewDataSource {
             if indexPath.row == 0 {
                 // Item ACQUIRED WHERE
                 let cell = tableView.dequeueReusableCell(withIdentifier: St_AddItemTextInputCell.reuseIdentifier) as! St_AddItemTextInputCell
-                cell.setUpCell(title: .acquiredFrom, placeholder: "Where was the item acquired?")
+                cell.addItemTextInputDelegate = self
+                cell.setUpCell(id: .acquiredFrom, placeholder: "Where was the item acquired?")
                 return cell
             }else {
                 // Item ACQUIRED WHEN

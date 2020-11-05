@@ -21,7 +21,7 @@ class St_AddItemTextInputCell: UITableViewCell {
     private var titleLabel: UILabel! = nil
     var textField: UITextField! = nil
     var addItemTextInputDelegate: St_AddItemTextInputCellDelegate?
-    var textFieldName: TextFieldIdentifier?
+    var textFieldIdentifier: TextFieldIdentifier?
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -79,9 +79,9 @@ class St_AddItemTextInputCell: UITableViewCell {
     }
     
     // MARK: -setUpCell
-    func setUpCell(title: TextFieldIdentifier, placeholder: String) {
-        textFieldName = title
-        titleLabel.text = title.rawValue
+    func setUpCell(id: TextFieldIdentifier, placeholder: String) {
+        textFieldIdentifier = id
+        titleLabel.text = id.rawValue
         textField.placeholder = placeholder
     }
 
@@ -92,8 +92,8 @@ extension St_AddItemTextInputCell: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        if textFieldName != nil {
-            addItemTextInputDelegate?.textFieldWasSet(to: textField.text!, for: textFieldName!)
+        if textFieldIdentifier != nil {
+            addItemTextInputDelegate?.textFieldWasSet(to: textField.text!, for: textFieldIdentifier!)
         }
         return true
     }

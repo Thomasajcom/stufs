@@ -79,12 +79,6 @@ class CoreDataTests: XCTestCase {
 
     }
     
-    func testToggleItemFavorite() {
-        XCTAssertTrue(item.favorite)
-        item.toggleFavoriteStatus()
-        XCTAssertFalse(item.favorite)
-    }
-    
     func testDeleteAllItems() {
         coreDataStore.deleteAll(ofEntity: "St_Item")
         XCTAssertTrue(coreDataStore.fetchAllItems().count == 0)
