@@ -37,9 +37,9 @@ class St_AddItemTextInputCell: UITableViewCell {
     }
     
     // we add this to enable the removal of the keyboard by pressing outside the nameTextField
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        contentView.endEditing(true)
-    }
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        contentView.endEditing(true)
+//    }
     
     // MARK: - Configure
     private func configureLabel() {

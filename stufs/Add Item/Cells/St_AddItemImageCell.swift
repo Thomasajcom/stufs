@@ -22,11 +22,9 @@ class St_AddItemImageCell: UITableViewCell {
     var addItemImageDelegate: St_AddItemImageCellDelegate?
     
     private var itemLabel: UILabel! = nil
-    private var addImageButton: UIButton! = nil
     var itemImage: UIImageView! = nil
     
     private var receiptLabel: UILabel! = nil
-    private var addReceiptButton: UIButton! = nil
     var receiptImage: UIImageView! = nil
     
     private var imagePicker: UIImagePickerController! = nil
@@ -38,7 +36,6 @@ class St_AddItemImageCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.preservesSuperviewLayoutMargins = true
         configureLabels()
-        configureImageButtons()
         configureImageViews()
         configureDivider()
         configureStackViews()
@@ -63,29 +60,13 @@ class St_AddItemImageCell: UITableViewCell {
         receiptLabel.text = "Receipt"
     }
     
-    private func configureImageButtons() {
-        addImageButton = UIButton(type: .custom)
-        addImageButton.setImage(UIImage(systemName: "camera"), for: .normal)
-        addImageButton.addTarget(self, action: #selector(addItemImage), for: .touchUpInside)
-        addImageButton.tintColor = .St_primaryColor
-        
-        addReceiptButton = UIButton(type: .custom)
-        addReceiptButton.setImage(UIImage(systemName: "camera"), for: .normal)
-        addReceiptButton.addTarget(self, action: #selector(addReceiptImage), for: .touchUpInside)
-        addReceiptButton.tintColor = .St_primaryColor
-        
-        contentView.addSubview(addImageButton)
-        contentView.addSubview(addReceiptButton)
-    }
-    
     private func configureImageViews() {
         itemImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         receiptImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        
-        itemImage.isHidden = true
-        receiptImage.isHidden = true
-        contentView.addSubview(itemImage)
-        contentView.addSubview(receiptImage)
+        itemImage.image = UIImage(named: "St_ItemCell_placeholder")
+        receiptImage.image = UIImage(named: "St_ItemCell_placeholder")
+        self.attachGestureRecognizer(to: itemImage, with: #selector(addItemImage))
+        self.attachGestureRecognizer(to: receiptImage, with: #selector(addReceiptImage))
     }
     
     private func configureStackViews() {
@@ -93,8 +74,15 @@ class St_AddItemImageCell: UITableViewCell {
         labelStack.axis = .horizontal
         labelStack.alignment = .leading
         labelStack.distribution = .fillEqually
+        
+        photoStack = UIStackView(arrangedSubviews: [itemImage, receiptImage])
+        photoStack.axis = .horizontal
+        photoStack.alignment = .center
+        photoStack.distribution = .fillEqually
+        photoStack.spacing = 10
 
         contentView.addSubview(labelStack)
+        contentView.addSubview(photoStack)
     }
     
     private func configureDivider() {
@@ -104,30 +92,17 @@ class St_AddItemImageCell: UITableViewCell {
     // MARK: - Constraints
     private func configureConstraints() {
         labelStack.translatesAutoresizingMaskIntoConstraints = false
+        photoStack.translatesAutoresizingMaskIntoConstraints = false
         itemImage.translatesAutoresizingMaskIntoConstraints = false
-        addImageButton.translatesAutoresizingMaskIntoConstraints = false
         receiptImage.translatesAutoresizingMaskIntoConstraints = false
-        addReceiptButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             labelStack.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             labelStack.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 1),
             contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: labelStack.trailingAnchor, multiplier: 1),
-            addImageButton.topAnchor.constraint(equalToSystemSpacingBelow: labelStack.bottomAnchor, multiplier: 1),
-            addImageButton.centerXAnchor.constraint(equalToSystemSpacingAfter: itemLabel.centerXAnchor, multiplier: 1),
-            contentView.layoutMarginsGuide.bottomAnchor.constraint(greaterThanOrEqualToSystemSpacingBelow: addImageButton.bottomAnchor, multiplier: 1),
-            itemImage.topAnchor.constraint(equalToSystemSpacingBelow: labelStack.bottomAnchor, multiplier: 1),
-            itemImage.centerXAnchor.constraint(equalToSystemSpacingAfter: itemLabel.centerXAnchor, multiplier: 1),
-            contentView.layoutMarginsGuide.bottomAnchor.constraint(greaterThanOrEqualToSystemSpacingBelow: itemImage.bottomAnchor, multiplier: 1),
-            addReceiptButton.topAnchor.constraint(equalToSystemSpacingBelow: labelStack.bottomAnchor, multiplier: 1),
-            addReceiptButton.centerXAnchor.constraint(equalToSystemSpacingAfter: receiptLabel.centerXAnchor, multiplier: 1),
-            contentView.layoutMarginsGuide.bottomAnchor.constraint(greaterThanOrEqualToSystemSpacingBelow: addReceiptButton.bottomAnchor, multiplier: 1),
-            receiptImage.topAnchor.constraint(equalToSystemSpacingBelow: labelStack.bottomAnchor, multiplier: 1),
-            receiptImage.centerXAnchor.constraint(equalToSystemSpacingAfter: receiptLabel.centerXAnchor, multiplier: 1),
-            contentView.layoutMarginsGuide.bottomAnchor.constraint(greaterThanOrEqualToSystemSpacingBelow: receiptImage.bottomAnchor, multiplier: 1),
-            itemImage.widthAnchor.constraint(equalTo: itemImage.heightAnchor, multiplier: 4/3),
-            receiptImage.widthAnchor.constraint(equalTo: receiptImage.heightAnchor, multiplier: 4/3),
-            
-            
+            photoStack.topAnchor.constraint(equalToSystemSpacingBelow: labelStack.bottomAnchor, multiplier: 1),
+            photoStack.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 1),
+            contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: photoStack.trailingAnchor, multiplier: 1),
+            contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: photoStack.bottomAnchor, multiplier: 1)
         ])
     }
     
@@ -140,5 +115,13 @@ class St_AddItemImageCell: UITableViewCell {
     @objc func addReceiptImage() {
         addItemImageDelegate?.showImagePicker(for: .receipt)
     }
+    
+    // MARK: - Helper Functions
+    func attachGestureRecognizer(to imageView: UIImageView, with action: Selector) {
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: action)
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(tapRecognizer)
+    }
+    
     
 }
