@@ -47,9 +47,9 @@ class St_CoreDataStore {
         })
     }
     
-    func saveContext() {
+    func saveContext(context: NSManagedObjectContext? = nil) {
         print("💾 💾 💾 We're trying to save! 💾 💾 💾")
-        let context = persistentContainer.viewContext
+        let context = context ?? persistentContainer.viewContext
         if context.hasChanges {
             do {
                 try context.save()
@@ -104,4 +104,5 @@ class St_CoreDataStore {
             print("Delete all data in \(entityName) error :", error)
         }
     }
+    
 }

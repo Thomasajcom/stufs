@@ -15,6 +15,7 @@ enum St_AddItemSectionHeaders: Int, CaseIterable {
 class AddItemVC: UIViewController {
     
     var coreDataStore: St_CoreDataStore! = nil
+    var backgroundContext: NSManagedObjectContext! = nil
     var newItem: St_Item! = nil
     
     private var tabs: UISegmentedControl! = nil
@@ -27,6 +28,7 @@ class AddItemVC: UIViewController {
     init(coreDataStore: St_CoreDataStore) {
         super.init(nibName: nil, bundle: nil)
         self.coreDataStore = coreDataStore
+        backgroundContext = self.coreDataStore.persistentContainer.newBackgroundContext()
         self.newItem = St_Item(context: self.coreDataStore.persistentContainer.viewContext)
     }
     
@@ -45,7 +47,7 @@ class AddItemVC: UIViewController {
     
     // MARK: - Configure
     private func configureView() {
-        view.backgroundColor = .systemPurple
+        view.backgroundColor = .secondarySystemBackground
         navigationController?.navigationBar.backgroundColor = .St_primaryColor
         title = "New Item"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -107,13 +109,14 @@ class AddItemVC: UIViewController {
     
     // MARK: - Actions
     @objc func dismissView() {
+        print("all items: \(coreDataStore.fetchAllItems().count)")
         self.dismiss(animated: true, completion: nil)
     }
     
     @objc func saveItem() {
         print("newItem er: \(String(describing: self.newItem))")
         do {
-            try coreDataStore.persistentContainer.viewContext.save()
+            try coreDataStore.saveContext(context: backgroundContext)
         } catch {
             print("failed to save")
         }

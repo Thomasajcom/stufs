@@ -38,8 +38,7 @@ class St_GroupGroupSelectorCell: UICollectionViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             button.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1),
-            button.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            contentView.leadingAnchor.constraint(equalTo: button.leadingAnchor),
+            button.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 1),
             contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: button.trailingAnchor, multiplier: 1)
         ])
     }

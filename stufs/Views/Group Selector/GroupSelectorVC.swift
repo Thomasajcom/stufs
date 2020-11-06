@@ -144,7 +144,7 @@ class GroupSelectorVC: UIViewController {
     // MARK: - ConfigureDataSource
     private func configureDataSource() {
         let diffableDataSource = UICollectionViewDiffableDataSource<Int, NSManagedObjectID> (collectionView: self.groupsCollectionView) { (collectionView, indexPath, objectID) -> UICollectionViewCell? in
-            //the object, an St_Item, to display in the collectionview
+            //the object, an St_Group, to display in the collectionView
             guard let object = try? self.coreDataStore.persistentContainer.viewContext.existingObject(with: objectID) else {
                 fatalError("Managed object should be available - it seems the save isnt done yet?")
             }
@@ -249,8 +249,9 @@ class GroupSelectorVC: UIViewController {
             #warning("Select a random color from a predefined set of colors")
             newGroup.color = UIColor.systemGreen
             
-            coreDataStore.saveContext()
-            
+            coreDataStore.persistentContainer.viewContext.performAndWait {
+                coreDataStore.saveContext()
+            }
         }
         groupSelectorVCDelegate?.updateSelectedGroup(with: newGroup)
         #warning("Alert user about Saved Group")
