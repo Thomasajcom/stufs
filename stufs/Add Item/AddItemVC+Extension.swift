@@ -56,7 +56,7 @@ extension AddItemVC: St_AddItemWarrantyCellDelegate {
 // MARK: - WarrantyPickerVCDelegate
 extension AddItemVC: WarrantyPickerVCDelegate {
     func setWarrantyLength(_ warrantyLength: WarrantyLength) {
-        self.newItem.warrantyLength = Int64(warrantyLength.warrantyLengthInDays)
+        self.newItem.daysOfWarrantyRemaining = Int64(warrantyLength.warrantyLengthInDays)
         
         let cell = self.tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? St_AddItemWarrantyCell
         cell?.setWarrantyLength(days: warrantyLength.warrantyLengthInDays)

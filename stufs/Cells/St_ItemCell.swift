@@ -45,7 +45,7 @@ class St_ItemCell: UICollectionViewCell {
     func configureCell(for item: St_Item) {
         self.item = item
         nameTextLabel.text = item.name
-        warrantyTextLabel.text = "\(item.warrantyLength)"
+        warrantyTextLabel.text = "\(item.daysOfWarrantyRemaining)"
         acquiredFromTextLabel.text = item.acquiredFrom
         setColorAndFavoriteButtonImage(to: item.favorite)
     }
