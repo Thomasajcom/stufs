@@ -249,9 +249,9 @@ class GroupSelectorVC: UIViewController {
             #warning("Select a random color from a predefined set of colors")
             newGroup.color = UIColor.systemGreen
             
-            coreDataStore.persistentContainer.viewContext.performAndWait {
-                coreDataStore.saveContext()
-            }
+            coreDataStore.persistentContainer.viewContext.perform({
+                self.coreDataStore.saveContext()
+            })
         }
         groupSelectorVCDelegate?.updateSelectedGroup(with: newGroup)
         #warning("Alert user about Saved Group")

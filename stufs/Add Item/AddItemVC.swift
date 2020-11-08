@@ -115,11 +115,9 @@ class AddItemVC: UIViewController {
     
     @objc func saveItem() {
         print("newItem er: \(String(describing: self.newItem))")
-        do {
-            try coreDataStore.saveContext(context: backgroundContext)
-        } catch {
-            print("failed to save")
-        }
+        coreDataStore.persistentContainer.viewContext.perform({
+            self.coreDataStore.saveContext()
+        })
         dismiss(animated: true, completion: nil)
     }
     
