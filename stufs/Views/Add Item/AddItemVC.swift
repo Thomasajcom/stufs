@@ -116,7 +116,7 @@ class AddItemVC: UIViewController {
     @objc func saveItem() {
         print("newItem er: \(String(describing: self.newItem))")
         coreDataStore.persistentContainer.viewContext.perform({
-            self.coreDataStore.saveContext()
+            self.coreDataStore.saveContext(context: self.newItem.managedObjectContext)
         })
         dismiss(animated: true, completion: nil)
     }
@@ -130,7 +130,7 @@ class AddItemVC: UIViewController {
     /// Checks if the Item is ready to be saved.
     /// If it is, the Save Item button will be enabled and colored
     func canItemBeSaved(){
-        if newItem.canBeSaved() {
+        if newItem.isReadyToBeSaved() {
             self.okButton.isEnabled = true
             self.okButton.setTitleColor(.St_primaryColor, for: .normal)
         } else {

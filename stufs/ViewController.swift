@@ -19,6 +19,10 @@ class ViewController: UIViewController {
     
     private var addItemButton: UIButton! = nil
     
+    private var filterSheetButton: UIButton! = nil
+    private var filterSheet: UIViewController! =  nil
+    lazy var filterSheetTransitioningDelegate = FilterSheetPresentationManager()
+    
     
     init(coreDataStore: St_CoreDataStore) {
         self.coreDataStore = coreDataStore
@@ -40,8 +44,8 @@ class ViewController: UIViewController {
         configureCollectionView()
         configureDataSource()
         configureFetchedResultsController()
-        configureAddItemButton()
-        configureGroupTray()
+        configureButtons()
+        configureFilterSheet()
         configureConstraints()
     }
     
@@ -109,7 +113,7 @@ class ViewController: UIViewController {
         let diffableDataSource = UICollectionViewDiffableDataSource<Int, NSManagedObjectID> (collectionView: self.collectionView) { (collectionView, indexPath, objectID) -> UICollectionViewCell? in
             //the object, an St_Item, to display in the collectionview
             guard let object = try? self.coreDataStore.persistentContainer.viewContext.existingObject(with: objectID) else {
-                fatalError("Managed object should be available")
+                fatalError("Managed object should be available, but wasn't saved!")
             }
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: St_ItemCell.reuseIdentifier, for: indexPath) as! St_ItemCell
@@ -124,7 +128,7 @@ class ViewController: UIViewController {
     }
     
     private func configureFetchedResultsController() {
-        let sortDescriptor = NSSortDescriptor(key: "warrantyLength", ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: "daysOfWarrantyRemaining", ascending: true)
         let request: NSFetchRequest<St_Item> = St_Item.fetchRequest()
         request.sortDescriptors = [sortDescriptor]
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: coreDataStore.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
@@ -138,16 +142,22 @@ class ViewController: UIViewController {
         }
     }
     
-    private func configureAddItemButton() {
+    private func configureButtons() {
         addItemButton = UIButton(type: .custom)
         addItemButton.setImage(UIImage(systemName: "plus"), for: .normal)
         addItemButton.addTarget(self, action: #selector(goToAddItem(sender:)), for: .touchUpInside)
         
+        filterSheetButton = UIButton(type: .custom)
+        filterSheetButton.setImage(UIImage(systemName: "minus"), for: .normal)
+        filterSheetButton.addTarget(self, action: #selector(showFilter), for: .touchUpInside)
+        
         view.addSubview(addItemButton)
+//        view.addSubview(filterSheetButton)
     }
     
-    private func configureGroupTray() {
-        
+    private func configureFilterSheet() {
+        filterSheet = FilterSheetVC()
+        self.add(filterSheet, frame: CGRect(x: .zero, y: self.view.frame.height-200, width: self.view.frame.width, height: 150))
     }
     
     // MARK: - CONSTRAINTS
@@ -155,6 +165,7 @@ class ViewController: UIViewController {
         tabs.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         addItemButton.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             tabs.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 1),
             tabs.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
@@ -165,7 +176,7 @@ class ViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: tabs.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             addItemButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            addItemButton.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor,constant: -10)
+            addItemButton.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor,constant: -10),
         ])
     }
     
@@ -178,6 +189,14 @@ class ViewController: UIViewController {
         let addItemVC = AddItemVC(coreDataStore: self.coreDataStore)
         let nav = UINavigationController(rootViewController: addItemVC)
         self.present(nav, animated: true, completion: nil)
+    }
+    
+    @objc private func showFilter(sender: UIButton) {
+        let filterSheet = AddItemVC(coreDataStore: self.coreDataStore)
+        filterSheetTransitioningDelegate.direction = .up
+        filterSheet.transitioningDelegate = filterSheetTransitioningDelegate
+        filterSheet.modalPresentationStyle = .custom
+        present(filterSheet, animated: true)
     }
     
     @objc private func goToSettings() {

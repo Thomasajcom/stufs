@@ -20,7 +20,7 @@ public class St_Item: NSManagedObject {
     
     /// Checks if the item is ready to be saved to the core data store
     /// - Returns: A boolean value based on certain item properties
-    func canBeSaved() -> Bool {
+    func isReadyToBeSaved() -> Bool {
         var nameOk = false
         var groupOk = false
         if name as String? != nil && name.count > 0 {

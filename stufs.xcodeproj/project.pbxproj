@@ -25,6 +25,11 @@
 		E91DAD7F25357D9E00D866A6 /* St_Group+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91DAD7B25357D9E00D866A6 /* St_Group+CoreDataProperties.swift */; };
 		E91DAD8025357D9E00D866A6 /* St_Item+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91DAD7C25357D9E00D866A6 /* St_Item+CoreDataClass.swift */; };
 		E91DAD8125357D9E00D866A6 /* St_Item+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91DAD7D25357D9E00D866A6 /* St_Item+CoreDataProperties.swift */; };
+		E921BA172559404700123E1C /* FilterSheetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E921BA162559404700123E1C /* FilterSheetVC.swift */; };
+		E921BA1C255981A300123E1C /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E921BA1B255981A300123E1C /* UIView+Extension.swift */; };
+		E921BA212559847700123E1C /* FilterSheetPresentationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E921BA202559847600123E1C /* FilterSheetPresentationManager.swift */; };
+		E921BA29255988AE00123E1C /* FilterSheetPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E921BA28255988AE00123E1C /* FilterSheetPresentationController.swift */; };
+		E921BA2E2559ABF900123E1C /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E921BA2D2559ABF900123E1C /* UIViewController+Extension.swift */; };
 		E921FB8725415E7A00A84BE8 /* AddItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E921FB8625415E7900A84BE8 /* AddItemVC.swift */; };
 		E921FB8C2541750900A84BE8 /* St_AddItemTextInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E921FB8B2541750900A84BE8 /* St_AddItemTextInputCell.swift */; };
 		E921FB9525419FBF00A84BE8 /* St_AddItemImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E921FB9425419FBF00A84BE8 /* St_AddItemImageCell.swift */; };
@@ -84,6 +89,11 @@
 		E91DAD7B25357D9E00D866A6 /* St_Group+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "St_Group+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E91DAD7C25357D9E00D866A6 /* St_Item+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "St_Item+CoreDataClass.swift"; sourceTree = "<group>"; };
 		E91DAD7D25357D9E00D866A6 /* St_Item+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "St_Item+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		E921BA162559404700123E1C /* FilterSheetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSheetVC.swift; sourceTree = "<group>"; };
+		E921BA1B255981A300123E1C /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		E921BA202559847600123E1C /* FilterSheetPresentationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FilterSheetPresentationManager.swift; path = stufs/Views/FilterSheet/FilterSheetPresentationManager.swift; sourceTree = SOURCE_ROOT; };
+		E921BA28255988AE00123E1C /* FilterSheetPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSheetPresentationController.swift; sourceTree = "<group>"; };
+		E921BA2D2559ABF900123E1C /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		E921FB8625415E7900A84BE8 /* AddItemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemVC.swift; sourceTree = "<group>"; };
 		E921FB8B2541750900A84BE8 /* St_AddItemTextInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_AddItemTextInputCell.swift; sourceTree = "<group>"; };
 		E921FB9425419FBF00A84BE8 /* St_AddItemImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_AddItemImageCell.swift; sourceTree = "<group>"; };
@@ -150,7 +160,6 @@
 			children = (
 				E94A5442254AF6E3006B56C8 /* Views */,
 				E94A5439254AE9CD006B56C8 /* Components */,
-				E921FB8525415E4400A84BE8 /* Add Item */,
 				E9A8F9722540B46A00EDDB1D /* Models */,
 				E9A8F952253DFABC00EDDB1D /* Cells */,
 				E9A8F949253D84E700EDDB1D /* Extensions */,
@@ -200,6 +209,16 @@
 			path = "Core Data";
 			sourceTree = "<group>";
 		};
+		E921BA152559402700123E1C /* FilterSheet */ = {
+			isa = PBXGroup;
+			children = (
+				E921BA162559404700123E1C /* FilterSheetVC.swift */,
+				E921BA202559847600123E1C /* FilterSheetPresentationManager.swift */,
+				E921BA28255988AE00123E1C /* FilterSheetPresentationController.swift */,
+			);
+			path = FilterSheet;
+			sourceTree = "<group>";
+		};
 		E921FB8525415E4400A84BE8 /* Add Item */ = {
 			isa = PBXGroup;
 			children = (
@@ -235,6 +254,8 @@
 		E94A5442254AF6E3006B56C8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E921BA152559402700123E1C /* FilterSheet */,
+				E921FB8525415E4400A84BE8 /* Add Item */,
 				E94A545F254FEB81006B56C8 /* Group Selector */,
 			);
 			path = Views;
@@ -253,6 +274,8 @@
 			isa = PBXGroup;
 			children = (
 				E9A8F94A253D851D00EDDB1D /* UIColor+Extension.swift */,
+				E921BA1B255981A300123E1C /* UIView+Extension.swift */,
+				E921BA2D2559ABF900123E1C /* UIViewController+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -408,11 +431,14 @@
 				E90628A0254FF6C600A11A70 /* St_AddItemWarrantyCell.swift in Sources */,
 				E90628A5255003AC00A11A70 /* WarrantyPickerVC.swift in Sources */,
 				E91DAD432535715000D866A6 /* ViewController.swift in Sources */,
+				E921BA172559404700123E1C /* FilterSheetVC.swift in Sources */,
 				E90628AA255067E800A11A70 /* St_AddItemAcquiredDateCell.swift in Sources */,
 				E90628B425519D6800A11A70 /* WarrantyPickerHelpers.swift in Sources */,
+				E921BA212559847700123E1C /* FilterSheetPresentationManager.swift in Sources */,
 				E94A543B254AEA6B006B56C8 /* St_GroupButton.swift in Sources */,
 				E921FB8725415E7A00A84BE8 /* AddItemVC.swift in Sources */,
 				E9A8F9592540274200EDDB1D /* St_CoreDataStore.swift in Sources */,
+				E921BA1C255981A300123E1C /* UIView+Extension.swift in Sources */,
 				E9A8F94B253D851D00EDDB1D /* UIColor+Extension.swift in Sources */,
 				E91DAD3F2535715000D866A6 /* AppDelegate.swift in Sources */,
 				E94A5435254AC304006B56C8 /* St_AddItemGroupSelectorCell.swift in Sources */,
@@ -424,8 +450,10 @@
 				E91DAD492535715000D866A6 /* stufs.xcdatamodeld in Sources */,
 				E9A8F954253DFB1E00EDDB1D /* St_ItemCell.swift in Sources */,
 				E91DAD8125357D9E00D866A6 /* St_Item+CoreDataProperties.swift in Sources */,
+				E921BA2E2559ABF900123E1C /* UIViewController+Extension.swift in Sources */,
 				E90628AF25519B0D00A11A70 /* AddItemVC+Extension.swift in Sources */,
 				E91DAD8025357D9E00D866A6 /* St_Item+CoreDataClass.swift in Sources */,
+				E921BA29255988AE00123E1C /* FilterSheetPresentationController.swift in Sources */,
 				E94A5461254FEBC7006B56C8 /* St_GroupGroupSelectorCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

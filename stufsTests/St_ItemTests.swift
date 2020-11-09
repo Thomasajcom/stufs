@@ -35,15 +35,15 @@ class St_ItemTests: XCTestCase {
         XCTAssertFalse(item.favorite)
     }
     
-    func testCanBeSaved() {
-        XCTAssertTrue(item.canBeSaved())
+    func testIsReadyToSave() {
+        XCTAssertTrue(item.isReadyToBeSaved())
         item.name = ""
-        XCTAssertFalse(item.canBeSaved())
+        XCTAssertFalse(item.isReadyToBeSaved())
         item.name = "iPhone 12"
         item.group = nil
-        XCTAssertFalse(item.canBeSaved())
+        XCTAssertFalse(item.isReadyToBeSaved())
         item.group = group
-        XCTAssertTrue(item.canBeSaved())
+        XCTAssertTrue(item.isReadyToBeSaved())
     }
     
     

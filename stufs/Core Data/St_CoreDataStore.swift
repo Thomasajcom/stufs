@@ -48,10 +48,12 @@ class St_CoreDataStore {
     }
     
     func saveContext(context: NSManagedObjectContext? = nil) {
-        print("💾 💾 💾 We're trying to save! 💾 💾 💾")
+        print("⁇💾⁇ We're trying to save! ⁇💾⁇")
+
         let context = context ?? persistentContainer.viewContext
         if context.hasChanges {
             do {
+                print("💾💾Context has changes, we are saving!!💾💾")
                 try context.save()
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
