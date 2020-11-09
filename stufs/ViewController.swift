@@ -157,7 +157,7 @@ class ViewController: UIViewController {
     
     private func configureFilterSheet() {
         filterSheet = FilterSheetVC()
-        self.add(filterSheet, frame: CGRect(x: .zero, y: self.view.frame.height-200, width: self.view.frame.width, height: 150))
+        self.add(filterSheet, frame: CGRect(x: .zero, y: self.view.frame.height-500, width: self.view.frame.width, height: self.view.frame.height/3))
     }
     
     // MARK: - CONSTRAINTS
