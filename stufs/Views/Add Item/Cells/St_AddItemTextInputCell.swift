@@ -11,7 +11,7 @@ enum TextFieldIdentifier: String {
     case itemName = "Name:"
     case acquiredFrom = "From:"
 }
-protocol St_AddItemTextInputCellDelegate {
+protocol St_AddItemTextInputCellDelegate: class {
     func textFieldWasSet(to name: String, for textField: TextFieldIdentifier)
 }
 /// A Cell for adding text to a new item when Adding Item. The cell displays a title and a textfield with a placeholder.
@@ -20,7 +20,7 @@ class St_AddItemTextInputCell: UITableViewCell {
     
     private var titleLabel: UILabel! = nil
     var textField: UITextField! = nil
-    var addItemTextInputDelegate: St_AddItemTextInputCellDelegate?
+    weak var addItemTextInputDelegate: St_AddItemTextInputCellDelegate?
     var textFieldIdentifier: TextFieldIdentifier?
     
     

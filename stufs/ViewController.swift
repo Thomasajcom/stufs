@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     private var addItemButton: UIButton! = nil
     
     private var filterSheetButton: UIButton! = nil
-    private var filterSheet: UIViewController! =  nil
+    private var filterSheet: FilterSheetVC! =  nil
     lazy var filterSheetTransitioningDelegate = FilterSheetPresentationManager()
     
     
@@ -156,7 +156,7 @@ class ViewController: UIViewController {
     }
     
     private func configureFilterSheet() {
-        filterSheet = FilterSheetVC()
+        filterSheet = FilterSheetVC(coreDataStore: coreDataStore)
         self.add(filterSheet, frame: CGRect(x: .zero, y: self.view.frame.height-500, width: self.view.frame.width, height: self.view.frame.height/3))
     }
     
