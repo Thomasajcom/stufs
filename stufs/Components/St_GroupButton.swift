@@ -17,6 +17,8 @@ class St_GroupButton: UIButton {
         self.init(type: .custom)
         if let selectedGroup = group {
             self.selectedGroup = selectedGroup
+            setTitle(selectedGroup.name, for: .normal)
+            setTitleColor(selectedGroup.color, for: .normal)
         } else {
             setTitle("Select Group", for: .normal)
             setTitleColor(.label, for: .normal)

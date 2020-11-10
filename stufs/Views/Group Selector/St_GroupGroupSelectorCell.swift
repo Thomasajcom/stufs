@@ -10,7 +10,6 @@ import UIKit
 class St_GroupGroupSelectorCell: UICollectionViewCell {
     static let reuseIdentifier: String = "St_GroupGroupSelectorCell"
     private var button: St_GroupButton! = nil
-    private var label: UILabel! = nil
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,5 +40,22 @@ class St_GroupGroupSelectorCell: UICollectionViewCell {
     func setupCell(with group: St_Group){
         button.setTitle(group.name, for: .normal)
         button.setButtonColor(to: group.color)
+    }
+    
+     func addShadow() {
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
+        layer.shadowRadius = 4
+        layer.shadowOpacity = 0.8
+        clipsToBounds = true
+        layer.masksToBounds = false
+    }
+    
+    func removeShadow() {
+        layer.shadowColor = UIColor.clear.cgColor
+        layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
+        layer.shadowRadius = 0
+        layer.shadowOpacity = 0.0
+        
     }
 }
