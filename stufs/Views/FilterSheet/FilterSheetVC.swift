@@ -17,7 +17,9 @@ class FilterSheetVC: UIViewController {
     private var groupsCollectionView: UICollectionView! = nil
     private var diffableDataSource: UICollectionViewDiffableDataSource<Int, NSManagedObjectID>! = nil
     private var fetchedResultsController: NSFetchedResultsController<St_Group>! = nil
-    private var selectedGroupsStack: UIStackView! = nil
+    
+    private var selectedGroupsCollectionView: UICollectionView! = nil
+    private var selectedGroupsDataSource: UICollectionViewDiffableDataSource<Section, St_Group>! = nil
     var selectedGroups: [St_Group]! = nil
     
     init(coreDataStore: St_CoreDataStore) {
@@ -36,7 +38,7 @@ class FilterSheetVC: UIViewController {
         super.viewDidLoad()
         configureView()
         configureButtons()
-        configureStackView()
+        configureSelectedCollectionView()
         configureCollectionView()
         configureDataSource()
         configureFetchedResultsController()
@@ -50,6 +52,7 @@ class FilterSheetVC: UIViewController {
         view.backgroundColor = .systemYellow
     }
     
+    // MARK: ConfigureButtons
     private func configureButtons() {
         expandButton = UIButton(type: .custom)
         expandButton.setImage(UIImage(systemName: "plus"), for: .normal)
@@ -64,20 +67,10 @@ class FilterSheetVC: UIViewController {
         resetButton.addTarget(self, action: #selector(maximizeOrMinimizeView), for: .touchUpInside)
         
         view.addSubview(expandButton)
-        view.addSubview(resetButton)
+        //        view.addSubview(resetButton)
     }
     
-    // MARK: - StackView
-    private func configureStackView() {
-        selectedGroupsStack = UIStackView()
-        selectedGroupsStack.axis = .horizontal
-        selectedGroupsStack.distribution = .fillEqually
-        
-        view.addSubview(selectedGroupsStack)
-        
-    }
-    
-    // MARK: - CollectionView
+    // MARK: CollectionView
     private func configureCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
@@ -89,7 +82,7 @@ class FilterSheetVC: UIViewController {
         view.addSubview(groupsCollectionView)
     }
     
-    // MARK: - ConfigureDataSource
+    // MARK: ConfigureDataSource
     private func configureDataSource() {
         let diffableDataSource = UICollectionViewDiffableDataSource<Int, NSManagedObjectID> (collectionView: self.groupsCollectionView) { (collectionView, indexPath, objectID) -> UICollectionViewCell? in
             //the object, an St_Group, to display in the collectionView
@@ -108,9 +101,9 @@ class FilterSheetVC: UIViewController {
         groupsCollectionView.dataSource = diffableDataSource
     }
     
-    // MARK: - ConfigureFetchesResultsController
+    // MARK: ConfigureFetchesResultsController
     private func configureFetchedResultsController() {
-
+        
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         let request: NSFetchRequest<St_Group> = St_Group.fetchRequest()
         request.sortDescriptors = [sortDescriptor]
@@ -128,18 +121,19 @@ class FilterSheetVC: UIViewController {
     // MARK: - Constraints
     private func configureConstraints() {
         expandButton.translatesAutoresizingMaskIntoConstraints = false
-        resetButton.translatesAutoresizingMaskIntoConstraints = false
-        selectedGroupsStack.translatesAutoresizingMaskIntoConstraints = false
+        //        resetButton.translatesAutoresizingMaskIntoConstraints = false
         groupsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        selectedGroupsCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             expandButton.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 1),
             expandButton.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 1),
-            resetButton.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 1),
-            view.trailingAnchor.constraint(equalToSystemSpacingAfter: resetButton.trailingAnchor, multiplier: 1),
-            selectedGroupsStack.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 1),
-            selectedGroupsStack.leadingAnchor.constraint(equalToSystemSpacingAfter: expandButton.trailingAnchor, multiplier: 1),
-            resetButton.trailingAnchor.constraint(equalToSystemSpacingAfter: selectedGroupsStack.trailingAnchor, multiplier: 1),
+            //            resetButton.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 1),
+            //            view.trailingAnchor.constraint(equalToSystemSpacingAfter: resetButton.trailingAnchor, multiplier: 1),
+            selectedGroupsCollectionView.heightAnchor.constraint(equalToConstant: 75),
+            selectedGroupsCollectionView.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 1),
+            selectedGroupsCollectionView.leadingAnchor.constraint(equalToSystemSpacingAfter: expandButton.trailingAnchor, multiplier: 1),
+            view.trailingAnchor.constraint(equalToSystemSpacingAfter: selectedGroupsCollectionView.trailingAnchor, multiplier: 1),
             groupsCollectionView.topAnchor.constraint(equalToSystemSpacingBelow: expandButton.bottomAnchor, multiplier: 2),
             groupsCollectionView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 1),
             view.trailingAnchor.constraint(equalToSystemSpacingAfter: groupsCollectionView.trailingAnchor, multiplier: 1),
@@ -150,13 +144,6 @@ class FilterSheetVC: UIViewController {
     // MARK: - Actions
     @objc private func maximizeOrMinimizeView() {
         print("mazimiiisimvidsdims")
-    }
-    
-    private func updateStackView() {
-        for group in selectedGroups! {
-            var button: St_GroupButton = St_GroupButton(group: group)
-            selectedGroupsStack.addArrangedSubview(button)
-        }
     }
     
 }
@@ -174,8 +161,17 @@ extension FilterSheetVC: UICollectionViewDelegate {
             fatalError("Managed object should be available")
         }
         let selectedGroup = group as! St_Group
-        selectedGroups?.append(selectedGroup)
-        updateStackView()
+        let cell = collectionView.cellForItem(at: indexPath) as? St_GroupGroupSelectorCell
+
+        if let groupIndex = selectedGroups.firstIndex(of: selectedGroup) {
+            selectedGroups?.remove(at: groupIndex)
+            cell?.removeShadow()
+        } else {
+            selectedGroups?.append(selectedGroup)
+            cell?.addShadow()
+        }
+        applySelectedGroupsSnapshot()
+        
     }
     
 }
@@ -224,4 +220,52 @@ extension FilterSheetVC: NSFetchedResultsControllerDelegate {
         
     }
     
+}
+
+// MARK: - SELECTED GROUP COLLECTION VIEW
+extension FilterSheetVC {
+    private enum Section {
+        case main
+    }
+    // MARK: SelectedCollectionView
+    private func configureSelectedCollectionView() {
+        selectedGroupsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createSelectedLayout())
+        selectedGroupsCollectionView.isUserInteractionEnabled = false
+        selectedGroupsCollectionView.delegate         = self
+        selectedGroupsCollectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        selectedGroupsCollectionView.backgroundColor  = .green
+        view.addSubview(selectedGroupsCollectionView)
+        
+        selectedGroupsCollectionView.register(St_GroupGroupSelectorCell.self, forCellWithReuseIdentifier: St_GroupGroupSelectorCell.reuseIdentifier)
+        selectedGroupsDataSource = UICollectionViewDiffableDataSource(collectionView: selectedGroupsCollectionView, cellProvider: { (selectedGroupsCollectionView, indexPath, group) -> St_GroupGroupSelectorCell? in
+            guard let cell = selectedGroupsCollectionView.dequeueReusableCell(withReuseIdentifier: St_GroupGroupSelectorCell.reuseIdentifier, for: indexPath) as? St_GroupGroupSelectorCell else {
+                fatalError("unable to dequeue cell")
+            }
+            cell.setupCell(with: group)
+            return cell
+        })
+    }
+    
+    // MARK: Apply Snapshot
+    private func applySelectedGroupsSnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, St_Group>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(self.selectedGroups)
+        selectedGroupsDataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
+    // MARK: - LAYOUT
+    private func createSelectedLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .fractionalHeight(1))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
 }
