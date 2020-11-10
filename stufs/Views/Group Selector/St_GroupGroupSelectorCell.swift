@@ -25,12 +25,7 @@ class St_GroupGroupSelectorCell: UICollectionViewCell {
     private func configureButton() {
         button = St_GroupButton(group: nil)
         button.isEnabled = false
-        
-        label = UILabel()
-        label.backgroundColor = .St_primaryColor
-        label.textColor = .white
-        label.textAlignment = .center
-        label.font = .preferredFont(forTextStyle: .callout)
+    
         contentView.addSubview(button)
     }
     
@@ -46,7 +41,5 @@ class St_GroupGroupSelectorCell: UICollectionViewCell {
     func setupCell(with group: St_Group){
         button.setTitle(group.name, for: .normal)
         button.setButtonColor(to: group.color)
-//        label.text = group.name
-//        label.backgroundColor = group.color
     }
 }
