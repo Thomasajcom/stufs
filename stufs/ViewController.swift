@@ -134,6 +134,7 @@ class ViewController: UIViewController {
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: coreDataStore.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
         
+        
         do {
             try fetchedResultsController.performFetch()
             print("Initial Fetch is good!")
@@ -152,12 +153,34 @@ class ViewController: UIViewController {
         filterSheetButton.addTarget(self, action: #selector(showFilter), for: .touchUpInside)
         
         view.addSubview(addItemButton)
-//        view.addSubview(filterSheetButton)
+        //        view.addSubview(filterSheetButton)
     }
     
+    // MARK: FILTERSHEET
     private func configureFilterSheet() {
         filterSheet = FilterSheetVC(coreDataStore: coreDataStore)
-        self.add(filterSheet, frame: CGRect(x: .zero, y: self.view.frame.height-500, width: self.view.frame.width, height: self.view.frame.height/3))
+        self.add(filterSheet, frame: nil)
+        
+        let filterSheetTopAnchor: NSLayoutConstraint = filterSheet.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -25)
+        
+        filterSheet.view.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 1).isActive = true
+        view.trailingAnchor.constraint(equalToSystemSpacingAfter: filterSheet.view.trailingAnchor, multiplier: 1).isActive = true
+        filterSheet.view.heightAnchor.constraint(equalToConstant: self.view.frame.height/3).isActive = true
+        filterSheetTopAnchor.isActive = true
+        view.trailingAnchor.constraint(equalToSystemSpacingAfter: addItemButton.trailingAnchor, multiplier: 1).isActive = true
+        
+        filterSheet.toggleFilterSheetVisibility = {
+            filterSheetTopAnchor.constant = self.filterSheet.viewIsExpanded ? -25 : -(self.view.frame.height/3)+50
+            UIView.animate(withDuration: 0.5,
+                           delay: 0, usingSpringWithDamping: 1.0,
+                           initialSpringVelocity: 1.0,
+                           options: .curveEaseInOut, animations: {
+                            self.view.layoutIfNeeded()
+                            self.filterSheet.expandButton.transform = self.filterSheet.viewIsExpanded ? CGAffineTransform.identity : CGAffineTransform(rotationAngle: CGFloat.pi)
+                           }) { (_) in
+                self.filterSheet.viewIsExpanded.toggle()
+            }
+        }
     }
     
     // MARK: - CONSTRAINTS
@@ -165,6 +188,7 @@ class ViewController: UIViewController {
         tabs.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         addItemButton.translatesAutoresizingMaskIntoConstraints = false
+        filterSheet.view.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             tabs.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 1),
@@ -175,17 +199,18 @@ class ViewController: UIViewController {
             collectionView.leadingAnchor.constraint(equalTo: tabs.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: tabs.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            addItemButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            addItemButton.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor,constant: -10),
+            filterSheet.view.topAnchor.constraint(equalToSystemSpacingBelow: addItemButton.bottomAnchor, multiplier: 1)
         ])
     }
     
     // MARK: - Actions
     @objc private func tabChanged(sender: UISegmentedControl) {
-
+        
     }
     
     @objc private func goToAddItem(sender: UIButton) {
+        #warning("create child context when creating new item")
+        //more info: https://stackoverflow.com/questions/34931481/nsfetchedresultscontroller-always-including-temporary-objects
         let addItemVC = AddItemVC(coreDataStore: self.coreDataStore)
         let nav = UINavigationController(rootViewController: addItemVC)
         self.present(nav, animated: true, completion: nil)

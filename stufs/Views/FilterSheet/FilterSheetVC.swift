@@ -11,9 +11,11 @@ import CoreData
 class FilterSheetVC: UIViewController {
     
     private var coreDataStore: St_CoreDataStore! = nil
-    private var expandButton: UIButton! = nil
+    var expandButton: UIButton! = nil
+    var viewIsExpanded: Bool = false
     private var resetButton: UIButton! = nil
     
+    private var filterInfo: UILabel! = nil
     private var groupsCollectionView: UICollectionView! = nil
     private var diffableDataSource: UICollectionViewDiffableDataSource<Int, NSManagedObjectID>! = nil
     private var fetchedResultsController: NSFetchedResultsController<St_Group>! = nil
@@ -21,6 +23,8 @@ class FilterSheetVC: UIViewController {
     private var selectedGroupsCollectionView: UICollectionView! = nil
     private var selectedGroupsDataSource: UICollectionViewDiffableDataSource<Section, St_Group>! = nil
     var selectedGroups: [St_Group]! = nil
+    
+    var toggleFilterSheetVisibility: (() -> Void)?
     
     init(coreDataStore: St_CoreDataStore) {
         super.init(nibName: nil, bundle: nil)
@@ -39,46 +43,64 @@ class FilterSheetVC: UIViewController {
         configureView()
         configureButtons()
         configureSelectedCollectionView()
+        configureLabels()
         configureCollectionView()
         configureDataSource()
         configureFetchedResultsController()
         configureConstraints()
         
+        
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
     }
     
     // MARK: - Configure
     private func configureView() {
-        view.backgroundColor = .systemYellow
+        view.backgroundColor = .St_primaryColor
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.St_primaryBorderColor?.cgColor
+        #warning("Corner Radius is missing!")
+        
     }
     
     // MARK: ConfigureButtons
     private func configureButtons() {
         expandButton = UIButton(type: .custom)
-        expandButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        expandButton.backgroundColor = .St_primaryColor
+        expandButton.setImage(UIImage(systemName: "chevron.up.circle"), for: .normal)
         expandButton.tintColor = .white
-        expandButton.addTarget(self, action: #selector(maximizeOrMinimizeView), for: .touchUpInside)
+        expandButton.addTarget(self, action: #selector(toggleFilterSheet), for: .touchUpInside)
         
         resetButton = UIButton(type: .custom)
-        resetButton.setImage(UIImage(systemName: "minus"), for: .normal)
-        resetButton.backgroundColor = .St_primaryColor
+        resetButton.setImage(UIImage(systemName: "arrow.uturn.left.circle"), for: .normal)
         resetButton.tintColor = .white
-        resetButton.addTarget(self, action: #selector(maximizeOrMinimizeView), for: .touchUpInside)
+        resetButton.addTarget(self, action: #selector(resetSelectedGroups), for: .touchUpInside)
         
         view.addSubview(expandButton)
-        //        view.addSubview(resetButton)
+                view.addSubview(resetButton)
     }
     
-    // MARK: CollectionView
+    // MARK: Labels
+    private func configureLabels() {
+        filterInfo = UILabel()
+        
+        filterInfo.font = .preferredFont(forTextStyle: .subheadline)
+        filterInfo.text = "Filter items by selecting one or more groups, up to a maximum of three."
+        filterInfo.textColor = .white
+        filterInfo.numberOfLines = 0
+        
+        view.addSubview(filterInfo)
+    }
+    // MARK: groupsCollectionView
     private func configureCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         groupsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        groupsCollectionView.backgroundColor = .St_primaryColor
         groupsCollectionView.delegate = self
-        groupsCollectionView.backgroundColor = .systemBackground
+        groupsCollectionView.allowsMultipleSelection = true
         groupsCollectionView.register(St_GroupGroupSelectorCell.self, forCellWithReuseIdentifier: St_GroupGroupSelectorCell.reuseIdentifier)
-        
         view.addSubview(groupsCollectionView)
     }
     
@@ -121,20 +143,24 @@ class FilterSheetVC: UIViewController {
     // MARK: - Constraints
     private func configureConstraints() {
         expandButton.translatesAutoresizingMaskIntoConstraints = false
-        //        resetButton.translatesAutoresizingMaskIntoConstraints = false
+        resetButton.translatesAutoresizingMaskIntoConstraints = false
         groupsCollectionView.translatesAutoresizingMaskIntoConstraints = false
         selectedGroupsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        filterInfo.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             expandButton.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 1),
             expandButton.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 1),
-            //            resetButton.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 1),
-            //            view.trailingAnchor.constraint(equalToSystemSpacingAfter: resetButton.trailingAnchor, multiplier: 1),
-            selectedGroupsCollectionView.heightAnchor.constraint(equalToConstant: 75),
-            selectedGroupsCollectionView.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 1),
+            selectedGroupsCollectionView.heightAnchor.constraint(equalToConstant: 55),
+            selectedGroupsCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
             selectedGroupsCollectionView.leadingAnchor.constraint(equalToSystemSpacingAfter: expandButton.trailingAnchor, multiplier: 1),
-            view.trailingAnchor.constraint(equalToSystemSpacingAfter: selectedGroupsCollectionView.trailingAnchor, multiplier: 1),
-            groupsCollectionView.topAnchor.constraint(equalToSystemSpacingBelow: expandButton.bottomAnchor, multiplier: 2),
+            resetButton.leadingAnchor.constraint(equalToSystemSpacingAfter: selectedGroupsCollectionView.trailingAnchor, multiplier: 1),
+            resetButton.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 1),
+            view.trailingAnchor.constraint(equalToSystemSpacingAfter: resetButton.trailingAnchor, multiplier: 1),
+            filterInfo.topAnchor.constraint(equalToSystemSpacingBelow: selectedGroupsCollectionView.bottomAnchor, multiplier: 1),
+            filterInfo.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 1),
+            view.trailingAnchor.constraint(equalToSystemSpacingAfter: filterInfo.trailingAnchor, multiplier: 1),
+            groupsCollectionView.topAnchor.constraint(equalTo: filterInfo.bottomAnchor),
             groupsCollectionView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 1),
             view.trailingAnchor.constraint(equalToSystemSpacingAfter: groupsCollectionView.trailingAnchor, multiplier: 1),
             view.bottomAnchor.constraint(equalTo: groupsCollectionView.bottomAnchor, constant: 1)
@@ -142,8 +168,24 @@ class FilterSheetVC: UIViewController {
     }
     
     // MARK: - Actions
-    @objc private func maximizeOrMinimizeView() {
-        print("mazimiiisimvidsdims")
+    @objc private func toggleFilterSheet() {
+        toggleFilterSheetVisibility?()
+    }
+    
+    @objc private func resetSelectedGroups() {
+        guard !selectedGroups.isEmpty else {
+            return
+        }
+        if let selectedItems = groupsCollectionView.indexPathsForSelectedItems {
+            for indexPath in selectedItems {
+                let cell = groupsCollectionView.cellForItem(at: indexPath) as? St_GroupGroupSelectorCell
+                cell?.removeShadow()
+                groupsCollectionView.deselectItem(at: indexPath, animated: false)
+            }
+            selectedGroups.removeAll()
+            applySelectedGroupsSnapshot()
+        }
+        
     }
     
 }
@@ -162,18 +204,30 @@ extension FilterSheetVC: UICollectionViewDelegate {
         }
         let selectedGroup = group as! St_Group
         let cell = collectionView.cellForItem(at: indexPath) as? St_GroupGroupSelectorCell
+        cell?.addShadow()
+        selectedGroups?.append(selectedGroup)
+        applySelectedGroupsSnapshot()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        guard let store = self.coreDataStore else {
+            fatalError("The Core Data Store was nil.")
+        }
+        guard let object = diffableDataSource.itemIdentifier(for: indexPath) else {
+            fatalError("Error when selecting group.")
+        }
+        guard let group = try? store.persistentContainer.viewContext.existingObject(with: object) else {
+            fatalError("Managed object should be available")
+        }
+        let selectedGroup = group as! St_Group
+        let cell = collectionView.cellForItem(at: indexPath) as? St_GroupGroupSelectorCell
 
         if let groupIndex = selectedGroups.firstIndex(of: selectedGroup) {
             selectedGroups?.remove(at: groupIndex)
             cell?.removeShadow()
-        } else {
-            selectedGroups?.append(selectedGroup)
-            cell?.addShadow()
+            applySelectedGroupsSnapshot()
         }
-        applySelectedGroupsSnapshot()
-        
     }
-    
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -229,11 +283,14 @@ extension FilterSheetVC {
     }
     // MARK: SelectedCollectionView
     private func configureSelectedCollectionView() {
-        selectedGroupsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createSelectedLayout())
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        flowLayout.scrollDirection = .horizontal
+        selectedGroupsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        selectedGroupsCollectionView.backgroundColor = .St_primaryColor
         selectedGroupsCollectionView.isUserInteractionEnabled = false
-        selectedGroupsCollectionView.delegate         = self
+        selectedGroupsCollectionView.delegate = self
         selectedGroupsCollectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        selectedGroupsCollectionView.backgroundColor  = .green
         view.addSubview(selectedGroupsCollectionView)
         
         selectedGroupsCollectionView.register(St_GroupGroupSelectorCell.self, forCellWithReuseIdentifier: St_GroupGroupSelectorCell.reuseIdentifier)
@@ -254,7 +311,7 @@ extension FilterSheetVC {
         selectedGroupsDataSource.apply(snapshot, animatingDifferences: true)
     }
     
-    // MARK: - LAYOUT
+    // MARK: - LAYOUT -unused as of v1 late november 2020
     private func createSelectedLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)

@@ -44,7 +44,7 @@ class St_GroupGroupSelectorCell: UICollectionViewCell {
     
      func addShadow() {
         layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
+        layer.shadowOffset = CGSize(width: 0.0, height: -3.0)
         layer.shadowRadius = 4
         layer.shadowOpacity = 0.8
         clipsToBounds = true

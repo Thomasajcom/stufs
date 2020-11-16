@@ -11,6 +11,7 @@ import UIKit
 
 extension UIColor {
     static let St_primaryColor = UIColor(named: "St_primaryColor")
+    static let St_primaryBorderColor = UIColor(named: "St_primaryBorderColor")
     static let selectedTabColor = UIColor(named: "selectedTabColor")
     static let nonselectedTabColor = UIColor(named: "nonselectedTabColor")
     static let St_ItemCellBackgroundColor = UIColor(named: "St_ItemCell_background")
