@@ -96,12 +96,30 @@ class FilterSheetVC: UIViewController {
     private func configureCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        groupsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        groupsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: groupsGrid())
         groupsCollectionView.backgroundColor = .St_primaryColor
         groupsCollectionView.delegate = self
         groupsCollectionView.allowsMultipleSelection = true
         groupsCollectionView.register(St_GroupGroupSelectorCell.self, forCellWithReuseIdentifier: St_GroupGroupSelectorCell.reuseIdentifier)
         view.addSubview(groupsCollectionView)
+    }
+    
+    // MARK: groupsCollectionView Layout
+    // a grid that supports four groups wide with a set width for each cell (containing a st_group)
+    private func groupsGrid() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.25), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 3)// horizontal(layoutSize: groupSize, subitems: [item])
+        group.interItemSpacing = .fixed(5)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .none
+        section.interGroupSpacing = 5
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
     }
     
     // MARK: ConfigureDataSource
@@ -192,6 +210,15 @@ class FilterSheetVC: UIViewController {
 
 // MAKR: - UICollectionViewDelegate
 extension FilterSheetVC: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as? St_GroupGroupSelectorCell
+
+        if groupsCollectionView.indexPathsForSelectedItems!.contains(indexPath) {
+            cell?.addShadow()
+        } else {
+            cell?.removeShadow()
+        }
+    }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let store = self.coreDataStore else {
             fatalError("The Core Data Store was nil.")
@@ -201,6 +228,11 @@ extension FilterSheetVC: UICollectionViewDelegate {
         }
         guard let group = try? store.persistentContainer.viewContext.existingObject(with: object) else {
             fatalError("Managed object should be available")
+        }
+        guard selectedGroups.count < 3 else {
+            print("MAX VALGT VIS ALERT")
+            #warning("We need an alert here!")
+            return
         }
         let selectedGroup = group as! St_Group
         let cell = collectionView.cellForItem(at: indexPath) as? St_GroupGroupSelectorCell
