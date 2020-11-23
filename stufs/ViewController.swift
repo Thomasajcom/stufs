@@ -177,7 +177,6 @@ class ViewController: UIViewController {
         
         //when we toggle the visibility of the sheet we slide it up from its nested position at the bottom of the screen (-25 from absolute bottom)
         filterSheet.toggleFilterSheetVisibility = {
-//            filterSheetTopAnchor.constant = self.filterSheet.viewIsExpanded ? -Constants.filterSheetOffset : -(self.view.frame.height/3)+Constants.filterSheetOffset
             filterSheetTopAnchor.isActive.toggle()
             filterSheetBottomAnchor.isActive.toggle()
             UIView.animate(withDuration: 0.5,
