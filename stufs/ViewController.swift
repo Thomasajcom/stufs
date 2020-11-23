@@ -10,6 +10,8 @@ import CoreData
 
 class ViewController: UIViewController {
     
+    private static let filterSheetOffset: CGFloat = 70
+    
     private var coreDataStore: St_CoreDataStore! = nil
     private var diffableDataSource: UICollectionViewDiffableDataSource<Int, NSManagedObjectID>! = nil
     private var fetchedResultsController: NSFetchedResultsController<St_Item>! = nil
@@ -47,6 +49,7 @@ class ViewController: UIViewController {
         configureButtons()
         configureFilterSheet()
         configureConstraints()
+        view.layoutIfNeeded()
     }
     
     // MARK: - Configuration
@@ -160,8 +163,11 @@ class ViewController: UIViewController {
     private func configureFilterSheet() {
         filterSheet = FilterSheetVC(coreDataStore: coreDataStore)
         self.add(filterSheet, frame: nil)
+        filterSheet.view.translatesAutoresizingMaskIntoConstraints = false
+
         
-        let filterSheetTopAnchor: NSLayoutConstraint = filterSheet.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -25)
+        let filterSheetTopAnchor: NSLayoutConstraint = filterSheet.view.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.filterSheetOffset)
+        let filterSheetBottomAnchor: NSLayoutConstraint = filterSheet.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         
         filterSheet.view.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 1).isActive = true
         view.trailingAnchor.constraint(equalToSystemSpacingAfter: filterSheet.view.trailingAnchor, multiplier: 1).isActive = true
@@ -169,14 +175,18 @@ class ViewController: UIViewController {
         filterSheetTopAnchor.isActive = true
         view.trailingAnchor.constraint(equalToSystemSpacingAfter: addItemButton.trailingAnchor, multiplier: 1).isActive = true
         
+        //when we toggle the visibility of the sheet we slide it up from its nested position at the bottom of the screen (-25 from absolute bottom)
         filterSheet.toggleFilterSheetVisibility = {
-            filterSheetTopAnchor.constant = self.filterSheet.viewIsExpanded ? -25 : -(self.view.frame.height/3)+50
+//            filterSheetTopAnchor.constant = self.filterSheet.viewIsExpanded ? -Constants.filterSheetOffset : -(self.view.frame.height/3)+Constants.filterSheetOffset
+            filterSheetTopAnchor.isActive.toggle()
+            filterSheetBottomAnchor.isActive.toggle()
             UIView.animate(withDuration: 0.5,
                            delay: 0, usingSpringWithDamping: 1.0,
                            initialSpringVelocity: 1.0,
                            options: .curveEaseInOut, animations: {
                             self.view.layoutIfNeeded()
                             self.filterSheet.expandButton.transform = self.filterSheet.viewIsExpanded ? CGAffineTransform.identity : CGAffineTransform(rotationAngle: CGFloat.pi)
+                            self.filterSheet.resetButton.transform = self.filterSheet.viewIsExpanded ? CGAffineTransform.identity : CGAffineTransform(rotationAngle: CGFloat.pi)
                            }) { (_) in
                 self.filterSheet.viewIsExpanded.toggle()
             }
@@ -188,7 +198,6 @@ class ViewController: UIViewController {
         tabs.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         addItemButton.translatesAutoresizingMaskIntoConstraints = false
-        filterSheet.view.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             tabs.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 1),
@@ -198,8 +207,7 @@ class ViewController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: tabs.bottomAnchor, constant: -5),
             collectionView.leadingAnchor.constraint(equalTo: tabs.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: tabs.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            filterSheet.view.topAnchor.constraint(equalToSystemSpacingBelow: addItemButton.bottomAnchor, multiplier: 1)
+            collectionView.bottomAnchor.constraint(equalTo: filterSheet.view.topAnchor, constant: -5),
         ])
     }
     

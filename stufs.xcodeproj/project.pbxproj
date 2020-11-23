@@ -34,6 +34,7 @@
 		E921FB8C2541750900A84BE8 /* St_AddItemTextInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E921FB8B2541750900A84BE8 /* St_AddItemTextInputCell.swift */; };
 		E921FB9525419FBF00A84BE8 /* St_AddItemImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E921FB9425419FBF00A84BE8 /* St_AddItemImageCell.swift */; };
 		E9232763254AAD5200BFC450 /* St_ItemStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9232762254AAD5200BFC450 /* St_ItemStatusTests.swift */; };
+		E931EFB3256C1FB40060FF99 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E931EFB2256C1FB40060FF99 /* Constants.swift */; };
 		E94A5435254AC304006B56C8 /* St_AddItemGroupSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94A5434254AC304006B56C8 /* St_AddItemGroupSelectorCell.swift */; };
 		E94A543B254AEA6B006B56C8 /* St_GroupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94A543A254AEA6B006B56C8 /* St_GroupButton.swift */; };
 		E94A5444254AF714006B56C8 /* GroupSelectorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94A5443254AF714006B56C8 /* GroupSelectorVC.swift */; };
@@ -98,6 +99,7 @@
 		E921FB8B2541750900A84BE8 /* St_AddItemTextInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_AddItemTextInputCell.swift; sourceTree = "<group>"; };
 		E921FB9425419FBF00A84BE8 /* St_AddItemImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_AddItemImageCell.swift; sourceTree = "<group>"; };
 		E9232762254AAD5200BFC450 /* St_ItemStatusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_ItemStatusTests.swift; sourceTree = "<group>"; };
+		E931EFB2256C1FB40060FF99 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E94A5434254AC304006B56C8 /* St_AddItemGroupSelectorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_AddItemGroupSelectorCell.swift; sourceTree = "<group>"; };
 		E94A543A254AEA6B006B56C8 /* St_GroupButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_GroupButton.swift; sourceTree = "<group>"; };
 		E94A5443254AF714006B56C8 /* GroupSelectorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSelectorVC.swift; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 				E9A8F94A253D851D00EDDB1D /* UIColor+Extension.swift */,
 				E921BA1B255981A300123E1C /* UIView+Extension.swift */,
 				E921BA2D2559ABF900123E1C /* UIViewController+Extension.swift */,
+				E931EFB2256C1FB40060FF99 /* Constants.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -434,6 +437,7 @@
 				E921BA172559404700123E1C /* FilterSheetVC.swift in Sources */,
 				E90628AA255067E800A11A70 /* St_AddItemAcquiredDateCell.swift in Sources */,
 				E90628B425519D6800A11A70 /* WarrantyPickerHelpers.swift in Sources */,
+				E931EFB3256C1FB40060FF99 /* Constants.swift in Sources */,
 				E921BA212559847700123E1C /* FilterSheetPresentationManager.swift in Sources */,
 				E94A543B254AEA6B006B56C8 /* St_GroupButton.swift in Sources */,
 				E921FB8725415E7A00A84BE8 /* AddItemVC.swift in Sources */,

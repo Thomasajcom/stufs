@@ -13,7 +13,7 @@ class FilterSheetVC: UIViewController {
     private var coreDataStore: St_CoreDataStore! = nil
     var expandButton: UIButton! = nil
     var viewIsExpanded: Bool = false
-    private var resetButton: UIButton! = nil
+    var resetButton: UIButton! = nil
     
     private var filterInfo: UILabel! = nil
     private var groupsCollectionView: UICollectionView! = nil
@@ -48,7 +48,6 @@ class FilterSheetVC: UIViewController {
         configureDataSource()
         configureFetchedResultsController()
         configureConstraints()
-        
         
         // Do any additional setup after loading the view.
     }
@@ -94,8 +93,6 @@ class FilterSheetVC: UIViewController {
     }
     // MARK: groupsCollectionView
     private func configureCollectionView() {
-        let layout = UICollectionViewFlowLayout()
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         groupsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: groupsGrid())
         groupsCollectionView.backgroundColor = .St_primaryColor
         groupsCollectionView.delegate = self
@@ -107,7 +104,7 @@ class FilterSheetVC: UIViewController {
     // MARK: groupsCollectionView Layout
     // a grid that supports four groups wide with a set width for each cell (containing a st_group)
     private func groupsGrid() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.25), heightDimension: .fractionalHeight(1))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50))
@@ -169,13 +166,13 @@ class FilterSheetVC: UIViewController {
         NSLayoutConstraint.activate([
             expandButton.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 1),
             expandButton.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 1),
-            selectedGroupsCollectionView.heightAnchor.constraint(equalToConstant: 55),
+            selectedGroupsCollectionView.heightAnchor.constraint(equalToConstant: 50),
             selectedGroupsCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
             selectedGroupsCollectionView.leadingAnchor.constraint(equalToSystemSpacingAfter: expandButton.trailingAnchor, multiplier: 1),
             resetButton.leadingAnchor.constraint(equalToSystemSpacingAfter: selectedGroupsCollectionView.trailingAnchor, multiplier: 1),
             resetButton.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 1),
             view.trailingAnchor.constraint(equalToSystemSpacingAfter: resetButton.trailingAnchor, multiplier: 1),
-            filterInfo.topAnchor.constraint(equalToSystemSpacingBelow: selectedGroupsCollectionView.bottomAnchor, multiplier: 1),
+            filterInfo.topAnchor.constraint(equalToSystemSpacingBelow: selectedGroupsCollectionView.bottomAnchor, multiplier: 2),
             filterInfo.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 1),
             view.trailingAnchor.constraint(equalToSystemSpacingAfter: filterInfo.trailingAnchor, multiplier: 1),
             groupsCollectionView.topAnchor.constraint(equalTo: filterInfo.bottomAnchor),
@@ -262,22 +259,6 @@ extension FilterSheetVC: UICollectionViewDelegate {
     }
 }
 
-// MARK: - UICollectionViewDelegateFlowLayout
-extension FilterSheetVC: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets.zero
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-}
-
 // MARK: - NSFetchedResultsControllerDelegate
 extension FilterSheetVC: NSFetchedResultsControllerDelegate {
     
@@ -315,14 +296,8 @@ extension FilterSheetVC {
     }
     // MARK: SelectedCollectionView
     private func configureSelectedCollectionView() {
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        flowLayout.scrollDirection = .horizontal
-        selectedGroupsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        selectedGroupsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: groupsGrid())
         selectedGroupsCollectionView.backgroundColor = .St_primaryColor
-        selectedGroupsCollectionView.isUserInteractionEnabled = false
-        selectedGroupsCollectionView.delegate = self
-        selectedGroupsCollectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(selectedGroupsCollectionView)
         
         selectedGroupsCollectionView.register(St_GroupGroupSelectorCell.self, forCellWithReuseIdentifier: St_GroupGroupSelectorCell.reuseIdentifier)
@@ -343,16 +318,15 @@ extension FilterSheetVC {
         selectedGroupsDataSource.apply(snapshot, animatingDifferences: true)
     }
     
-    // MARK: - LAYOUT -unused as of v1 late november 2020
+    // MARK: - LAYOUT
     private func createSelectedLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .fractionalHeight(1))
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
