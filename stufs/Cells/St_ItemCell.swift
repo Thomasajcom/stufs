@@ -43,7 +43,7 @@ class St_ItemCell: UICollectionViewCell {
         nameTextLabel.text = item.name
         warrantyTextLabel.text = "( item.acquiredWhen+\(item.warrantyLength) ) - idag = x days left"
         acquiredFromTextLabel.text = item.acquiredFrom
-        itemAgeTextLabel.text = "78 days"
+        itemAgeTextLabel.text = "\(item.getItemAge()) days"
         setColorAndFavoriteButtonImage(to: item.favorite)
     }
     
@@ -55,6 +55,7 @@ class St_ItemCell: UICollectionViewCell {
     
     private func configureLabels() {
         nameTextLabel = St_Label(textStyle: .largeTitle)
+        nameTextLabel.text = "nameTextLabel"
         
         warrantyTitle = St_Label(textStyle: .subheadline)
         warrantyTitle.text = "Warranty expires in"

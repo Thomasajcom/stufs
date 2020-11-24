@@ -31,4 +31,21 @@ public class St_Item: NSManagedObject {
         }
         return nameOk && groupOk
     }
+    
+    /// Find the age of an item, based on its acquiredDate
+    /// - Returns: How many days old the item is, -1 if the acquiredDate was nil
+    func getItemAge() -> Int {
+        #warning("missing TEST")
+        guard let acquiredDate = self.acquiredDate else {
+            return -1
+        }
+        let calendar = Calendar.current
+        
+        let today = calendar.startOfDay(for: Date())
+        let acqDate = calendar.startOfDay(for: acquiredDate)
+        
+        let itemAge = calendar.dateComponents([.day], from: acqDate, to: today)
+        
+        return itemAge.day!
+    }
 }
