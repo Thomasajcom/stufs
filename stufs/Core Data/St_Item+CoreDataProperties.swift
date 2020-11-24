@@ -21,7 +21,7 @@ extension St_Item {
     @NSManaged public var notes: String?
     @NSManaged public var itemPhoto: Data?
     @NSManaged public var receiptPhoto: Data?
-    @NSManaged public var daysOfWarrantyRemaining: Int64
+    @NSManaged public var warrantyLength: Int64
     @NSManaged public var acquiredFrom: String?
     @NSManaged public var acquiredDate: Date?
     @NSManaged public var discardedDate: Date?
