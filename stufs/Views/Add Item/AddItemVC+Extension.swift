@@ -26,7 +26,7 @@ extension AddItemVC: St_AddItemTextInputCellDelegate {
 // MARK: - St_AddItemGroupSelectorCellDelegate
 extension AddItemVC: St_AddItemGroupSelectorCellDelegate {
     func goToGroupSelection(group: St_Group?) {
-        let groupSelector = GroupSelectorVC(coreDataStore: self.coreDataStore, group: group)
+        let groupSelector = GroupSelectorVC(coreDataStore: self.coreDataStore, group: group, context: self.newItem.managedObjectContext!)
         groupSelector.groupSelectorVCDelegate = self
         groupSelector.isModalInPresentation = true
         present(groupSelector, animated: true)

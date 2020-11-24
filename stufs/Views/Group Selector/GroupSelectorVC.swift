@@ -17,6 +17,7 @@ class GroupSelectorVC: UIViewController {
     var groupSelectorVCDelegate: GroupSelectorVCDelegate?
     private var group: St_Group?
     private var coreDataStore: St_CoreDataStore! = nil
+    private var context: NSManagedObjectContext! = nil
     
     private var cardView = UIView()
     private var titleLabel: UILabel! = nil
@@ -32,10 +33,11 @@ class GroupSelectorVC: UIViewController {
     private var diffableDataSource: UICollectionViewDiffableDataSource<Int, NSManagedObjectID>! = nil
     private var fetchedResultsController: NSFetchedResultsController<St_Group>! = nil
     
-    init(coreDataStore: St_CoreDataStore, group: St_Group?) {
+    init(coreDataStore: St_CoreDataStore, group: St_Group?, context: NSManagedObjectContext) {
         super.init(nibName: nil, bundle: nil)
         self.coreDataStore = coreDataStore
         self.group = group
+        self.context = context
     }
     
     required init?(coder: NSCoder) {
@@ -145,7 +147,7 @@ class GroupSelectorVC: UIViewController {
     private func configureDataSource() {
         let diffableDataSource = UICollectionViewDiffableDataSource<Int, NSManagedObjectID> (collectionView: self.groupsCollectionView) { (collectionView, indexPath, objectID) -> UICollectionViewCell? in
             //the object, an St_Group, to display in the collectionView
-            guard let object = try? self.coreDataStore.persistentContainer.viewContext.existingObject(with: objectID) else {
+            guard let object = try? self.context?.existingObject(with: objectID) else {
                 fatalError("Managed object should be available - it seems the save isnt done yet?")
             }
             let group = object as! St_Group
@@ -165,7 +167,7 @@ class GroupSelectorVC: UIViewController {
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         let request: NSFetchRequest<St_Group> = St_Group.fetchRequest()
         request.sortDescriptors = [sortDescriptor]
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: coreDataStore.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
         
         do {
@@ -243,14 +245,13 @@ class GroupSelectorVC: UIViewController {
     /// This either creates a new group, or sets an already existing group based on collectionView selection
     @objc func setGroup() {
         //if collectview.selectedGroup == nil
-        let newGroup = St_Group(context: coreDataStore.persistentContainer.viewContext)
+        let newGroup = St_Group(context: context)
         if nameTextField.text?.isEmpty == false {
             newGroup.name = nameTextField.text!
             #warning("Select a random color from a predefined set of colors")
             newGroup.color = UIColor.systemGreen
-            
             coreDataStore.persistentContainer.viewContext.perform({
-                self.coreDataStore.saveContext()
+                self.coreDataStore.saveContext(context: newGroup.managedObjectContext)
             })
         }
         groupSelectorVCDelegate?.updateSelectedGroup(with: newGroup)
@@ -264,11 +265,11 @@ class GroupSelectorVC: UIViewController {
 extension GroupSelectorVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let object = self.diffableDataSource.itemIdentifier(for: indexPath) else { return }
-        
-        guard let group = try? self.coreDataStore.persistentContainer.viewContext.existingObject(with: object) else {
-            fatalError("Managed object should be available")
+
+        guard let contextSensitiveGroup = try? self.context?.existingObject(with: object) else {
+            fatalError("Didn't find the group in the given context")
         }
-        let selectedGroup = group as! St_Group
+        let selectedGroup = contextSensitiveGroup as! St_Group
 
         groupSelectorVCDelegate?.updateSelectedGroup(with: selectedGroup)
         dismiss(animated: true, completion: nil)

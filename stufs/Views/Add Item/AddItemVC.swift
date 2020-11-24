@@ -15,6 +15,7 @@ enum St_AddItemSectionHeaders: Int, CaseIterable {
 class AddItemVC: UIViewController {
     
     var coreDataStore: St_CoreDataStore! = nil
+    var childContext: NSManagedObjectContext! = nil
     var backgroundContext: NSManagedObjectContext! = nil
     var newItem: St_Item! = nil
     
@@ -28,8 +29,10 @@ class AddItemVC: UIViewController {
     init(coreDataStore: St_CoreDataStore) {
         super.init(nibName: nil, bundle: nil)
         self.coreDataStore = coreDataStore
+        childContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        childContext.parent = self.coreDataStore.persistentContainer.viewContext
         backgroundContext = self.coreDataStore.persistentContainer.newBackgroundContext()
-        self.newItem = St_Item(context: self.coreDataStore.persistentContainer.viewContext)
+        self.newItem = St_Item(context: childContext)
     }
     
     required init?(coder: NSCoder) {
@@ -115,8 +118,10 @@ class AddItemVC: UIViewController {
     
     @objc func saveItem() {
         print("newItem er: \(String(describing: self.newItem))")
+        
         coreDataStore.persistentContainer.viewContext.perform({
             self.coreDataStore.saveContext(context: self.newItem.managedObjectContext)
+            self.coreDataStore.saveContext() //after saving the child context above, me must also save to the persistentStore
         })
         dismiss(animated: true, completion: nil)
     }
