@@ -104,6 +104,7 @@ class ViewController: UIViewController {
         
     }
     
+    // MARK: configureCollectionView
     private func configureCollectionView() {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
         collectionView.register(St_ItemCell.self, forCellWithReuseIdentifier: St_ItemCell.reuseIdentifier)
@@ -112,6 +113,7 @@ class ViewController: UIViewController {
         view.addSubview(collectionView)
     }
     
+    // MARK: configureDataSource
     private func configureDataSource() {
         let diffableDataSource = UICollectionViewDiffableDataSource<Int, NSManagedObjectID> (collectionView: self.collectionView) { (collectionView, indexPath, objectID) -> UICollectionViewCell? in
             //the object, an St_Item, to display in the collectionview
@@ -130,8 +132,9 @@ class ViewController: UIViewController {
         collectionView.dataSource = diffableDataSource
     }
     
+    // MARK: FetchedResultsConstroller
     private func configureFetchedResultsController() {
-        let sortDescriptor = NSSortDescriptor(key: "daysOfWarrantyRemaining", ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: "warrantyLength", ascending: true)
         let request: NSFetchRequest<St_Item> = St_Item.fetchRequest()
         request.sortDescriptors = [sortDescriptor]
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: coreDataStore.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
@@ -146,6 +149,7 @@ class ViewController: UIViewController {
         }
     }
     
+    // MARK: ConfigureButton
     private func configureButtons() {
         addItemButton = UIButton(type: .custom)
         addItemButton.setImage(UIImage(systemName: "plus"), for: .normal)
@@ -207,6 +211,7 @@ class ViewController: UIViewController {
             collectionView.leadingAnchor.constraint(equalTo: tabs.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: tabs.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: filterSheet.view.topAnchor, constant: -5),
+            addItemButton.bottomAnchor.constraint(equalTo: filterSheet.view.topAnchor, constant: -10),
         ])
     }
     
@@ -239,7 +244,7 @@ class ViewController: UIViewController {
     
     // MARK: Layout
     func createCompositionalLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1/3))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(150))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))

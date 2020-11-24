@@ -35,6 +35,7 @@
 		E921FB9525419FBF00A84BE8 /* St_AddItemImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E921FB9425419FBF00A84BE8 /* St_AddItemImageCell.swift */; };
 		E9232763254AAD5200BFC450 /* St_ItemStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9232762254AAD5200BFC450 /* St_ItemStatusTests.swift */; };
 		E931EFB3256C1FB40060FF99 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E931EFB2256C1FB40060FF99 /* Constants.swift */; };
+		E931EFB8256CED4C0060FF99 /* St_Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = E931EFB7256CED4B0060FF99 /* St_Label.swift */; };
 		E94A5435254AC304006B56C8 /* St_AddItemGroupSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94A5434254AC304006B56C8 /* St_AddItemGroupSelectorCell.swift */; };
 		E94A543B254AEA6B006B56C8 /* St_GroupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94A543A254AEA6B006B56C8 /* St_GroupButton.swift */; };
 		E94A5444254AF714006B56C8 /* GroupSelectorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94A5443254AF714006B56C8 /* GroupSelectorVC.swift */; };
@@ -100,6 +101,7 @@
 		E921FB9425419FBF00A84BE8 /* St_AddItemImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_AddItemImageCell.swift; sourceTree = "<group>"; };
 		E9232762254AAD5200BFC450 /* St_ItemStatusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_ItemStatusTests.swift; sourceTree = "<group>"; };
 		E931EFB2256C1FB40060FF99 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		E931EFB7256CED4B0060FF99 /* St_Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_Label.swift; sourceTree = "<group>"; };
 		E94A5434254AC304006B56C8 /* St_AddItemGroupSelectorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_AddItemGroupSelectorCell.swift; sourceTree = "<group>"; };
 		E94A543A254AEA6B006B56C8 /* St_GroupButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = St_GroupButton.swift; sourceTree = "<group>"; };
 		E94A5443254AF714006B56C8 /* GroupSelectorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSelectorVC.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 			isa = PBXGroup;
 			children = (
 				E94A543A254AEA6B006B56C8 /* St_GroupButton.swift */,
+				E931EFB7256CED4B0060FF99 /* St_Label.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -443,6 +446,7 @@
 				E921FB8725415E7A00A84BE8 /* AddItemVC.swift in Sources */,
 				E9A8F9592540274200EDDB1D /* St_CoreDataStore.swift in Sources */,
 				E921BA1C255981A300123E1C /* UIView+Extension.swift in Sources */,
+				E931EFB8256CED4C0060FF99 /* St_Label.swift in Sources */,
 				E9A8F94B253D851D00EDDB1D /* UIColor+Extension.swift in Sources */,
 				E91DAD3F2535715000D866A6 /* AppDelegate.swift in Sources */,
 				E94A5435254AC304006B56C8 /* St_AddItemGroupSelectorCell.swift in Sources */,
