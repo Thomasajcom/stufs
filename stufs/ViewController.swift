@@ -221,8 +221,6 @@ class ViewController: UIViewController {
     }
     
     @objc private func goToAddItem(sender: UIButton) {
-        #warning("create child context when creating new item")
-        //more info: https://stackoverflow.com/questions/34931481/nsfetchedresultscontroller-always-including-temporary-objects
         let addItemVC = AddItemVC(coreDataStore: self.coreDataStore)
         let nav = UINavigationController(rootViewController: addItemVC)
         self.present(nav, animated: true, completion: nil)
@@ -246,17 +244,21 @@ class ViewController: UIViewController {
     func createCompositionalLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(150))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+//        item.contentInsets = .init(top: 5, leading: 5, bottom: 0, trailing: 0)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        group.interItemSpacing = .flexible(10)
         
         
         let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = .init(top: 5, leading: 10, bottom: 5, trailing: 10)
+        section.interGroupSpacing = 10
         let layoutConfig = UICollectionViewCompositionalLayoutConfiguration()
         layoutConfig.scrollDirection = .vertical
         
         let layout = UICollectionViewCompositionalLayout(section: section, configuration: layoutConfig)
-        return layout
+        return UICollectionViewCompositionalLayout(section: section)
     }
     
 }

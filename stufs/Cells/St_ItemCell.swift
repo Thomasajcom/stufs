@@ -20,6 +20,9 @@ class St_ItemCell: UICollectionViewCell {
     private var acquiredFromTitle: St_Label! = nil
     private var acquiredFromTextLabel: St_Label! = nil
     private var favoriteButton: UIButton! = nil
+    private var groupReceiptStack: UIStackView! = nil
+    private var groupButton: St_GroupButton! = nil
+    private var receiptButton: St_ReceiptButton! = nil
     
     private var item: St_Item! = nil
 
@@ -29,6 +32,7 @@ class St_ItemCell: UICollectionViewCell {
         configureLabels()
         configureImageView()
         configureButtons()
+        configureStackView()
         configureConstraints()
     }
     
@@ -45,12 +49,15 @@ class St_ItemCell: UICollectionViewCell {
         acquiredFromTextLabel.text = item.acquiredFrom
         itemAgeTextLabel.text = "\(item.getItemAge()) days"
         setColorAndFavoriteButtonImage(to: item.favorite)
+        groupButton.setTitle(item.group!.name, for: .normal)
+        groupButton.setButtonColor(to: item.group!.color)
     }
     
     private func configureView() {
         backgroundColor = .St_ItemCellBackgroundColor
-        contentView.layer.borderWidth = 1
+        contentView.layer.borderWidth = 2
         contentView.layer.borderColor = UIColor.nonselectedTabColor?.cgColor
+        contentView.layer.cornerRadius = 5
     }
     
     private func configureLabels() {
@@ -85,7 +92,7 @@ class St_ItemCell: UICollectionViewCell {
     
     private func configureImageView() {
 //        itemImageView = UIImageView(image: UIImage(named: "St_ItemCell_placeholder"))
-        itemImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        itemImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 125, height: 125))
         itemImageView.image = UIImage(named: "St_ItemCell_placeholder")
         itemImageView.isOpaque = true
         itemImageView.contentMode = .scaleAspectFill
@@ -97,10 +104,24 @@ class St_ItemCell: UICollectionViewCell {
     private func configureButtons() {
         favoriteButton = UIButton(type: .custom)
         favoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
-        
         favoriteButton.addTarget(self, action: #selector(toggleFavorite), for: .touchUpInside)
         
+        groupButton = St_GroupButton(group: nil)
+        receiptButton = St_ReceiptButton()
+        receiptButton.addTarget(self, action: #selector(tappedReceipt), for: .touchUpInside)
+        
         contentView.addSubview(favoriteButton)
+//        contentView.addSubview(groupButton)
+//        contentView.addSubview(receiptButton)
+    }
+    
+    private func configureStackView() {
+        groupReceiptStack = UIStackView(arrangedSubviews: [groupButton,receiptButton])
+        groupReceiptStack.alignment = .center
+        groupReceiptStack.axis = .horizontal
+        groupReceiptStack.distribution = .equalCentering
+        
+        contentView.addSubview(groupReceiptStack)
     }
     
     private func setColorAndFavoriteButtonImage(to value: Bool) {
@@ -114,25 +135,31 @@ class St_ItemCell: UICollectionViewCell {
         setColorAndFavoriteButtonImage(to: item.favorite)
     }
     
+    @objc func tappedReceipt(sender: St_ReceiptButton) {
+        print("show receipt for \(self.item.name)")
+    }
+    
     
     // MARK: - CONSTRAINTS
     private func configureConstraints() {
         favoriteButton.translatesAutoresizingMaskIntoConstraints = false
+        itemImageView.translatesAutoresizingMaskIntoConstraints = false
+        groupReceiptStack.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            nameTextLabel.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1),
+            nameTextLabel.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             nameTextLabel.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
             nameTextLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
             
             favoriteButton.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             favoriteButton.trailingAnchor.constraint(equalTo: nameTextLabel.trailingAnchor),
-//            contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: favoriteButton.trailingAnchor, multiplier: 1),
+            contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: favoriteButton.trailingAnchor, multiplier: 1),
 
             
-            itemImageView.heightAnchor.constraint(equalToConstant: 100),
-            itemImageView.widthAnchor.constraint(equalToConstant: 100),
+            itemImageView.heightAnchor.constraint(equalToConstant: 125),
+            itemImageView.widthAnchor.constraint(equalToConstant: 125),
             itemImageView.topAnchor.constraint(equalTo: nameTextLabel.bottomAnchor),
-            itemImageView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 1),
+            itemImageView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
             contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: itemImageView.bottomAnchor, multiplier: 1),
             
             warrantyTitle.topAnchor.constraint(equalTo: nameTextLabel.bottomAnchor),
@@ -147,7 +174,7 @@ class St_ItemCell: UICollectionViewCell {
             itemAgeTitle.bottomAnchor.constraint(lessThanOrEqualTo: itemAgeTextLabel.topAnchor),
             itemAgeTextLabel.topAnchor.constraint(equalTo: acquiredFromTitle.bottomAnchor),
             itemAgeTextLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: itemImageView.trailingAnchor, multiplier: 1),
-            itemAgeTextLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor),
+//            itemAgeTextLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor),
 
             acquiredFromTitle.topAnchor.constraint(equalToSystemSpacingBelow: warrantyTextLabel.bottomAnchor, multiplier: 1),
             acquiredFromTitle.leadingAnchor.constraint(equalToSystemSpacingAfter: itemAgeTextLabel.trailingAnchor, multiplier: 1),
@@ -155,7 +182,13 @@ class St_ItemCell: UICollectionViewCell {
             acquiredFromTextLabel.topAnchor.constraint(equalTo: acquiredFromTitle.bottomAnchor),
             acquiredFromTextLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: itemAgeTextLabel.trailingAnchor, multiplier: 1),
             acquiredFromTextLabel.trailingAnchor.constraint(equalTo: nameTextLabel.trailingAnchor),
-            acquiredFromTextLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
+            
+            groupReceiptStack.topAnchor.constraint(greaterThanOrEqualToSystemSpacingBelow: itemAgeTextLabel.bottomAnchor, multiplier: 1),
+            groupReceiptStack.leadingAnchor.constraint(equalToSystemSpacingAfter: itemImageView.trailingAnchor, multiplier: 1),
+//            groupReceiptStack.bottomAnchor.constraint(equalToSystemSpacingBelow: groupButton.bottomAnchor, multiplier: 1),
+//            receiptButton.topAnchor.constraint(equalToSystemSpacingBelow: acquiredFromTextLabel.bottomAnchor, multiplier: 1),
+            contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: groupReceiptStack.trailingAnchor, multiplier: 1),
+            contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: groupReceiptStack.bottomAnchor, multiplier: 1)
         ])
     }
 }
