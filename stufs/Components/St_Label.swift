@@ -23,7 +23,7 @@ class St_Label: UILabel {
 //            backgroundColor = .green
         case .headline:
             textColor = .label
-//            backgroundColor = .systemBackground
+            backgroundColor = .systemBackground
         case .subheadline:
             textColor = .secondaryLabel
         default:
