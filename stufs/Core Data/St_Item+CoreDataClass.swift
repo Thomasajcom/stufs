@@ -34,10 +34,10 @@ public class St_Item: NSManagedObject {
     
     /// Find the age of an item, based on its acquiredDate
     /// - Returns: How many days old the item is, -1 if the acquiredDate was nil
-    func getItemAge() -> Int {
+    func getItemAge() -> String {
         #warning("missing TEST")
         guard let acquiredDate = self.acquiredDate else {
-            return -1
+            return "-1 days"
         }
         let calendar = Calendar.current
         
@@ -46,6 +46,6 @@ public class St_Item: NSManagedObject {
         
         let itemAge = calendar.dateComponents([.day], from: acqDate, to: today)
         
-        return itemAge.day!
+        return "\(itemAge.day!)"
     }
 }
