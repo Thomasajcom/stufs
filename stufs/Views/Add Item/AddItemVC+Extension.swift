@@ -37,9 +37,9 @@ extension AddItemVC: St_AddItemGroupSelectorCellDelegate {
 // MARK: - GroupSelectorVCDelegate
 extension AddItemVC: GroupSelectorVCDelegate {
     func updateSelectedGroup(with group: St_Group) {
-        self.newItem.group = group
         let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? St_AddItemGroupSelectorCell
         cell?.set(group: group)
+        self.newItem.group = group
         self.canItemBeSaved()
     }
 }

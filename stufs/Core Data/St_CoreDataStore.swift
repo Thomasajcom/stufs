@@ -45,12 +45,14 @@ class St_CoreDataStore {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+        persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
     }
     
     func saveContext(context: NSManagedObjectContext? = nil) {
-        print("⁇💾⁇ We're trying to save! ⁇💾⁇")
-
+        print("💾 We are in saveContext! 💾")
         let context = context ?? persistentContainer.viewContext
+        print("viewcontext is: \(persistentContainer.viewContext.description)")
+        print("currentContext is: \(context.description)")
         if context.hasChanges {
             do {
                 print("💾💾Context has changes, we are saving!!💾💾")

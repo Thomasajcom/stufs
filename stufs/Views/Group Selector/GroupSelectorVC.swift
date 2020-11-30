@@ -33,11 +33,11 @@ class GroupSelectorVC: UIViewController {
     private var diffableDataSource: UICollectionViewDiffableDataSource<Int, NSManagedObjectID>! = nil
     private var fetchedResultsController: NSFetchedResultsController<St_Group>! = nil
     
-    init(coreDataStore: St_CoreDataStore, group: St_Group?, context: NSManagedObjectContext) {
+    init(coreDataStore: St_CoreDataStore, group: St_Group?, context: NSManagedObjectContext? = nil) {
         super.init(nibName: nil, bundle: nil)
         self.coreDataStore = coreDataStore
         self.group = group
-        self.context = context
+        self.context = context ?? self.coreDataStore.persistentContainer.viewContext
     }
     
     required init?(coder: NSCoder) {
@@ -253,8 +253,8 @@ class GroupSelectorVC: UIViewController {
             coreDataStore.persistentContainer.viewContext.perform({
                 self.coreDataStore.saveContext(context: newGroup.managedObjectContext)
             })
+            groupSelectorVCDelegate?.updateSelectedGroup(with: newGroup)
         }
-        groupSelectorVCDelegate?.updateSelectedGroup(with: newGroup)
         #warning("Alert user about Saved Group")
         dismiss(animated: true, completion: nil)
     }
