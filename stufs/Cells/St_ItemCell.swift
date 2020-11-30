@@ -44,13 +44,13 @@ class St_ItemCell: UICollectionViewCell {
     // MARK: - Configure
     func configureCell(for item: St_Item) {
         self.item = item
-        nameTextLabel.text = item.name
+        nameTextLabel.text = item.name.isEmpty ? "Item without title" : item.name
         warrantyTextLabel.text = "( item.acquiredWhen+\(item.warrantyLength) ) - idag = x days left"
         acquiredFromTextLabel.text = item.acquiredFrom
-        itemAgeTextLabel.text = "\(item.getItemAge()) days"
+        itemAgeTextLabel.text = item.getItemAge()
         setColorAndFavoriteButtonImage(to: item.favorite)
-        groupButton.setTitle(item.group!.name, for: .normal)
-        groupButton.setButtonColor(to: item.group!.color)
+        groupButton.setTitle(item.group?.name ?? "Error", for: .normal)
+        groupButton.setButtonColor(to: item.group?.color ?? .systemRed)
     }
     
     private func configureView() {
