@@ -19,7 +19,7 @@ class ViewController: UIViewController {
     private var tabs: UISegmentedControl! = nil
     private var collectionView: UICollectionView! = nil
     
-    private var addItemButton: UIButton! = nil
+    private var addItemButton: St_Button! = nil
     
     private var filterSheetButton: UIButton! = nil
     private var filterSheet: FilterSheetVC! =  nil
@@ -151,7 +151,7 @@ class ViewController: UIViewController {
     
     // MARK: ConfigureButton
     private func configureButtons() {
-        addItemButton = UIButton(type: .custom)
+        addItemButton = St_Button()
         addItemButton.setImage(UIImage(systemName: "plus"), for: .normal)
         addItemButton.addTarget(self, action: #selector(goToAddItem(sender:)), for: .touchUpInside)
         
@@ -177,7 +177,7 @@ class ViewController: UIViewController {
         view.trailingAnchor.constraint(equalToSystemSpacingAfter: filterSheet.view.trailingAnchor, multiplier: 1).isActive = true
         filterSheet.view.heightAnchor.constraint(equalToConstant: self.view.frame.height/3).isActive = true
         filterSheetTopAnchor.isActive = true
-        view.trailingAnchor.constraint(equalToSystemSpacingAfter: addItemButton.trailingAnchor, multiplier: 1).isActive = true
+//        view.trailingAnchor.constraint(equalToSystemSpacingAfter: addItemButton.trailingAnchor, multiplier: 1).isActive = true
         
         //when we toggle the visibility of the sheet we slide it up from its nested position at the bottom of the screen (-25 from absolute bottom)
         filterSheet.toggleFilterSheetVisibility = {
@@ -211,6 +211,7 @@ class ViewController: UIViewController {
             collectionView.leadingAnchor.constraint(equalTo: tabs.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: tabs.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: filterSheet.view.topAnchor, constant: -5),
+            addItemButton.centerXAnchor.constraint(equalTo: view.trailingAnchor),
             addItemButton.bottomAnchor.constraint(equalTo: filterSheet.view.topAnchor, constant: -10),
         ])
     }
