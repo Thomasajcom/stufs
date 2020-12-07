@@ -177,7 +177,6 @@ class ViewController: UIViewController {
         view.trailingAnchor.constraint(equalToSystemSpacingAfter: filterSheet.view.trailingAnchor, multiplier: 1).isActive = true
         filterSheet.view.heightAnchor.constraint(equalToConstant: self.view.frame.height/3).isActive = true
         filterSheetTopAnchor.isActive = true
-//        view.trailingAnchor.constraint(equalToSystemSpacingAfter: addItemButton.trailingAnchor, multiplier: 1).isActive = true
         
         //when we toggle the visibility of the sheet we slide it up from its nested position at the bottom of the screen (-25 from absolute bottom)
         filterSheet.toggleFilterSheetVisibility = {
@@ -210,7 +209,7 @@ class ViewController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: tabs.bottomAnchor, constant: -5),
             collectionView.leadingAnchor.constraint(equalTo: tabs.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: tabs.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: filterSheet.view.topAnchor, constant: -5),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             addItemButton.centerXAnchor.constraint(equalTo: view.trailingAnchor),
             addItemButton.bottomAnchor.constraint(equalTo: filterSheet.view.topAnchor, constant: -10),
         ])
@@ -218,6 +217,9 @@ class ViewController: UIViewController {
     
     // MARK: - Actions
     @objc private func tabChanged(sender: UISegmentedControl) {
+        //get the name of the selected tab, aka status
+        let selectedTab = St_ItemStatus.allCases[sender.selectedSegmentIndex]
+        //update the current snapshot to only show items with status == selectedTab.name
         
     }
     
