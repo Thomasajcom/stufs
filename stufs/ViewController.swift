@@ -47,7 +47,7 @@ class ViewController: UIViewController {
         configureDataSource()
         configureFetchedResultsController()
         configureButtons()
-        configureFilterSheet()
+        configureFilterSheet() 
         configureConstraints()
         view.layoutIfNeeded()
     }
