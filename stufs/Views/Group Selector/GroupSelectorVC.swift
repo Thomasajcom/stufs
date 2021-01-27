@@ -69,12 +69,17 @@ class GroupSelectorVC: UIViewController {
     // MARK: - Configure
     private func configureView() {
         view.backgroundColor = .clear
+        let blur = UIBlurEffect(style: UIBlurEffect.Style.regular)
+        let blurView = UIVisualEffectView(effect: blur)
+        blurView.frame = view.bounds
+        blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         cardView.bounds.size.width = view.bounds.width - 100
         cardView.bounds.size.height = view.bounds.height / 2
         cardView.center = view.center
         cardView.alpha = 1
         cardView.backgroundColor = .systemBackground
-        
+    
+        view.addSubview(blurView)
         view.addSubview(cardView)
     }
     

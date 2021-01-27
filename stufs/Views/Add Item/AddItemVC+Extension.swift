@@ -19,8 +19,6 @@ extension AddItemVC: St_AddItemTextInputCellDelegate {
         }
         self.canItemBeSaved()
     }
-    
-    
 }
 
 // MARK: - St_AddItemGroupSelectorCellDelegate
@@ -65,6 +63,9 @@ extension AddItemVC: WarrantyPickerVCDelegate {
 
 // MARK: - AddItemImageDelegate
 extension AddItemVC: St_AddItemImageCellDelegate {
+    
+    /// Shows the Library for selecting an image
+    /// - Parameter imageType: The Image Type; Receipt or Item
     func showImagePicker(for imageType: St_AddItemImage) {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
@@ -78,7 +79,7 @@ extension AddItemVC: St_AddItemImageCellDelegate {
             
         } else {
             #warning("Prompt user with an alert here")
-            print("camera not available")
+            print("library not available")
         }
     }
 }
@@ -107,6 +108,7 @@ extension AddItemVC: UIImagePickerControllerDelegate, UINavigationControllerDele
             }
         }
         //saves the image to device gallery if the source type was camera
+        //this is a future feature
         #warning("Add 'save photos to library?' in Settings and check that value here")
         if picker.sourceType == UIImagePickerController.SourceType.camera {
             UIImageWriteToSavedPhotosAlbum(editedImage!, nil, nil, nil)

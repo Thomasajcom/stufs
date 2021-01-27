@@ -54,13 +54,13 @@ class ViewController: UIViewController {
     
     // MARK: - Configuration
     private func configureNav() {
-        title = "stØfs"
+        title = "Everystuff"
         let rightBarButton = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(goToSettings))
         navigationItem.rightBarButtonItem = rightBarButton
     }
     
     private func configureView() {
-        view.backgroundColor = .systemPurple
+        view.backgroundColor = .secondarySystemBackground
     }
     
     private func configureTabs() {

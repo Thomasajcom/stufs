@@ -48,6 +48,12 @@ class WarrantyPickerVC: UIViewController {
         cardView.alpha = 1
         cardView.backgroundColor = .systemBackground
         
+        let blur = UIBlurEffect(style: UIBlurEffect.Style.regular)
+        let blurView = UIVisualEffectView(effect: blur)
+        blurView.frame = view.bounds
+        blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        view.addSubview(blurView)
         view.addSubview(cardView)
     }
     
